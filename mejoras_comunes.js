@@ -1381,7 +1381,7 @@
   const SI = key === 'san-ignacio';
   const SI_EMP = [['lacteos', 'Lácteos San Ignacio'], ['agroex', 'Agroexportaciones Chile'], ['agricola', 'Agrícola San Ignacio'], ['inversiones', 'Inversiones San Ignacio']];
   const D = DATOS[key] || null, EMPN = SI ? 'su empresa' : D ? D[1] : 'la empresa';
-  const URL_INSC = key === 'comfrut' ? 'https://docs.google.com/forms/d/e/1FAIpQLSfDHyNGgk3iR1PP417Za6Xt21YOrtlZVBmJwPMJpCW4fMtkiQ/viewform' : D ? INSC + D[0] : '';
+  const URL_INSC = D ? INSC + D[0] : '';
   const AM = '#FFC20E', OSC = '#1F2328';
   const hablar = t => { try { VOZ.say(t); } catch (e) {} };
 

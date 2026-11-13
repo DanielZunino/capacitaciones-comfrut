@@ -189,7 +189,7 @@
   esAntiguo = function () { return false; };
 
   // ---------- 8) Inscripción: si el sistema no reconoce el RUT, elige su empresa y completa la ficha guiada
-  const INSC = 'https://docs.google.com/forms/d/e/1FAIpQLSfDHyNGgk3iR1PP417Za6Xt21YOrtlZVBmJwPMJpCW4fMtkiQ/viewform';
+  const INSC = 'https://danielzunino.github.io/inscripcion-san-ignacio/?e=comfrut';   // ficha guiada (una sola; ahí se elige la empresa)
   const botonesEmp = () => `<div class="siEmpBtns" style="grid-template-columns:1fr"><a href="${INSC}" target="_blank" rel="noopener"><img alt="" src="${LOGO_CF}"><span class="n">Ficha de inscripción del Fundo Santa Sara</span><span style="font-weight:normal;font-size:13px">Comfrut Nursery, CAR, Snova, Agricap e Integra</span></a></div>`;
   alertaNomina = function (tipo, rut) {
     let m = document.getElementById('nomModal'); if (!m) { m = document.createElement('div'); m.id = 'nomModal'; document.body.appendChild(m); }
