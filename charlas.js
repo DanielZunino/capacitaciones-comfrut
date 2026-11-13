@@ -35,6 +35,7 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
     + `<line x1="${x - 16}" y1="${y}" x2="${x - 1}" y2="${y - h}" stroke="#B0BEC5" stroke-width="5" stroke-linecap="round"/><line x1="${x + 16}" y1="${y}" x2="${x + 3}" y2="${y - h}" stroke="#B0BEC5" stroke-width="5" stroke-linecap="round"/>`;
     for (let i = 1; i < 7; i++) { const k = i / 7, yy = y - h * k; g += `<line x1="${f1(x - 16 + 15 * k)}" y1="${f1(yy)}" x2="${f1(x + 16 - 13 * k)}" y2="${f1(yy)}" stroke="#90A4AE" stroke-width="3"/>`; }
     return rot ? `<g transform="rotate(${rot} ${x} ${y})">${g}</g>` : g; };
+  tractor = (f => (...a) => '<g data-motor="1"></g>' + f(...a))(tractor);
   function tractor(x, y, o = {}) {   // x = rueda trasera izquierda aprox.; ~125 px de largo
     let g = `<rect x="${x + 50}" y="${y - 50}" width="68" height="24" rx="5" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><rect x="${x + 112}" y="${y - 46}" width="8" height="16" fill="#9E9E9E"/>`
       + `<rect x="${x + 22}" y="${y - 58}" width="40" height="30" rx="4" fill="#1A27B0"/><rect x="${x + 90}" y="${y - 70}" width="5" height="20" fill="#424242"/>`
@@ -492,8 +493,10 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
   const PUESTO_HTML = '<li><b>Cosecha, poda y amarre de frambuesa:</b> sobrecarga postural y trabajo repetitivo, cortes con tijeras, espinas, alambres y cañas a la altura de los ojos, picaduras, sol y calor, caídas en terreno irregular. <span class="ctrl">✅ Control:</span> doblar las rodillas y cambiar de postura, pausas activas, tijera con funda y corte hacia afuera, guantes, lentes, manga larga, legionario, bloqueador y agua.</li>'
     + '<li><b>Armado de estructura:</b> manejo manual de postes, golpes con combo, latigazo de alambre tenso, proyección de astillas. <span class="ctrl">✅ Control:</span> postes entre dos (máximo 25 kg por persona), nadie en la línea del alambre, lentes, guantes y zapatos de seguridad.</li>'
     + '<li><b>Tractores y vehículos:</b> atropello, volcamiento, atrapamiento en el cardán. <span class="ctrl">✅ Control:</span> solo personal autorizado, arco antivuelco y cinturón, nadie como pasajero, contacto visual con el tractorista, nunca detrás de un tractor que retrocede.</li>'
+    + '<li><b>Cosecha mecanizada:</b> atropello, atrapamiento en piezas móviles, ruido. <span class="ctrl">✅ Control:</span> nadie delante ni en la cabecera cuando gira, contacto visual y seña del operador, nunca meter las manos con la máquina andando, solo sube personal autorizado, protector auditivo junto a la máquina.</li>'
+    + '<li><b>Taller mecánico:</b> soldadura, esmeril, piezas pesadas, equipos levantados. <span class="ctrl">✅ Control:</span> solo personal autorizado; equipo con tarjeta y candado no se usa.</li>'
     + '<li><b>Agroquímicos:</b> intoxicación por contacto, inhalación o ingestión. <span class="ctrl">✅ Control:</span> respetar el período de reingreso, no comer en la hilera, lavarse las manos, EPP según la HDS.</li>'
-    + '<li><b>Para todos:</b> caídas al mismo nivel, accesorios y ropa suelta, riesgo eléctrico, incendio, accidente de trayecto y acoso. <span class="ctrl">✅ Control:</span> pasillos libres, sin anillos ni pulseras, no intervenir instalaciones eléctricas, conocer la zona de seguridad, respetar las normas de tránsito y el buen trato.</li>';
+    + '<li><b>Para todos:</b> caídas al mismo nivel, joyas y ropa suelta, pelo fuera de la cofia, riesgo eléctrico, incendio, accidente de trayecto y acoso. <span class="ctrl">✅ Control:</span> pasillos libres, sin anillos ni pulseras, no intervenir instalaciones eléctricas, conocer la zona de seguridad, respetar las normas de tránsito y el buen trato.</li>';
 
   ['comfrut', 'car', 'snova', 'agricap', 'integra'].forEach(e => {
     const pick = v => (v && typeof v === 'object' && !Array.isArray(v) && (v.d !== undefined || v.comfrut !== undefined)) ? (v[e] !== undefined ? v[e] : (esMandante(e) && v.comfrut !== undefined ? v.comfrut : v.d)) : v;
@@ -562,7 +565,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + `<rect x="${x}" y="${y - 62}" width="${w}" height="14" rx="7" fill="#37474F"/><rect x="${x + 4}" y="${y - 60}" width="${w - 8}" height="4" fill="#546E7A"/>`
     + `<circle cx="${x + 7}" cy="${y - 55}" r="5" fill="#90A4AE"/><circle cx="${x + w - 7}" cy="${y - 55}" r="5" fill="#90A4AE"/>`
     + (fruta ? `<clipPath id="t1Cc${x}"><rect x="${x}" y="${y - 76}" width="${w}" height="16"/></clipPath><g clip-path="url(#t1Cc${x})"><g class="t1Cin">${Array.from({ length: Math.ceil(w / 12) + 3 }, (_, i) => `<circle cx="${x - 24 + i * 12}" cy="${y - 65}" r="4" fill="${i % 3 ? '#C62828' : '#AD1457'}"/>`).join('')}</g></g>` : '');
-  const tractor = (x, y, o = {}) => { const c = o.c || '#1F2FD6'; let g = `<rect x="${x + 36}" y="${y - 58}" width="96" height="30" rx="6" fill="${c}" stroke="#0D1B8C" stroke-width="1.5"/><rect x="${x + 120}" y="${y - 54}" width="14" height="22" rx="2" fill="#263238"/>`
+  const tractor = (...a) => '<g data-motor="1"></g>' + tractor_m(...a); const tractor_m = (x, y, o = {}) => { const c = o.c || '#1F2FD6'; let g = `<rect x="${x + 36}" y="${y - 58}" width="96" height="30" rx="6" fill="${c}" stroke="#0D1B8C" stroke-width="1.5"/><rect x="${x + 120}" y="${y - 54}" width="14" height="22" rx="2" fill="#263238"/>`
       + `<rect x="${x + 110}" y="${y - 76}" width="5" height="20" fill="#455A64"/><path d="M${x + 22},${y - 58} v-48 h40 v48" fill="none" stroke="#263238" stroke-width="4"/><rect x="${x + 22}" y="${y - 62}" width="44" height="8" fill="#37474F"/>`
       + `<circle cx="${x + 34}" cy="${y - 28}" r="28" fill="#263238"/><circle cx="${x + 34}" cy="${y - 28}" r="12" fill="#FDD835"/><circle cx="${x + 34}" cy="${y - 28}" r="4" fill="#263238"/>`
       + `<circle cx="${x + 118}" cy="${y - 16}" r="16" fill="#263238"/><circle cx="${x + 118}" cy="${y - 16}" r="7" fill="#FDD835"/>`;
@@ -1377,7 +1380,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + [x + 12, x + 50].map(cx => `<circle cx="${cx}" cy="${y - 10}" r="10" fill="#263238"/><circle cx="${cx}" cy="${y - 10}" r="3.8" fill="#90A4AE"/>`).join('')
     + (o.load ? bin(x + 66, y - (o.lift || 10) - 4) : '') + (o.light ? `<circle cx="${x + 46}" cy="${y - 76}" r="4" fill="#FF6F00" class="t2bl"/>` : '');
     return o.flip ? `<g transform="translate(${2 * x + 110},0) scale(-1,1)">${g}</g>` : g; };
-  const tractor = (x, y, s = 1) => `<g transform="translate(${x},${y}) scale(${s})"><rect x="-6" y="-58" width="70" height="30" rx="4" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><path d="M38,-58 v-34 h28 v34" fill="#BBDEFB" stroke="#263238" stroke-width="3"/><rect x="34" y="-96" width="36" height="5" fill="#263238"/><rect x="8" y="-74" width="5" height="18" fill="#263238"/>`
+  const tractor = (...a) => '<g data-motor="1"></g>' + tractor_m(...a); const tractor_m = (x, y, s = 1) => `<g transform="translate(${x},${y}) scale(${s})"><rect x="-6" y="-58" width="70" height="30" rx="4" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><path d="M38,-58 v-34 h28 v34" fill="#BBDEFB" stroke="#263238" stroke-width="3"/><rect x="34" y="-96" width="36" height="5" fill="#263238"/><rect x="8" y="-74" width="5" height="18" fill="#263238"/>`
     + `<circle cx="54" cy="-26" r="26" fill="#263238"/><circle cx="54" cy="-26" r="10" fill="#FFC107"/><circle cx="0" cy="-14" r="14" fill="#263238"/><circle cx="0" cy="-14" r="5" fill="#FFC107"/></g>`;
   const out = () => (E() === 'agricola' ? field() : patio());
   // objetos
@@ -2248,6 +2251,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     if (o.fruit) for (let i = 0; i < 9; i++) g += `<circle cx="${x + 6 * s + i * 5 * s}" cy="${y - h - 1 * s + (i % 2) * 1.5 * s}" r="${2.8 * s}" fill="${o.fruit}"/>`;
     return g; };
   // tractor vista lateral. x = borde trasero, y = suelo, mira a la derecha (flip: a la izquierda, x sigue siendo el borde trasero)
+  tractor = (f => (...a) => '<g data-motor="1"></g>' + f(...a))(tractor);
   function tractor(x, y, o = {}) {
     const s = o.s || 1, c = o.c || '#1F2FD6', c2 = o.c2 || '#0D1B8C';
     let g = '';
@@ -2935,11 +2939,12 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   }
   // espaldera: postes de madera y 2 alambres con matas de frambuesa. y = suelo
   function hilera(x1, x2, y, s = 1, o = {}) {
-    const top = y - 92 * s, w1 = y - 48 * s, w2 = y - 80 * s;
+    const H = o.bajo ? 1 : 1.22;   // la frambuesa del Fundo Santa Sara es más alta que una persona (~2,2 m)
+    const top = y - (o.bajo ? 92 : 120) * s, w1 = y - (o.bajo ? 48 : 56) * s, w2 = y - (o.bajo ? 80 : 100) * s;
     let g = '';
     for (let x = x1; x <= x2 + 1; x += (o.paso || 90) * s) g += `<rect x="${f1(x - 3 * s)}" y="${f1(top)}" width="${f1(6 * s)}" height="${f1(y - top)}" fill="#8D6E63" stroke="#5D4037" stroke-width="1"/><rect x="${f1(x - 3 * s)}" y="${f1(top)}" width="${f1(6 * s)}" height="${f1(4 * s)}" fill="#6D4C41"/>`;
     const plants = [];
-    for (let x = x1 + 22 * s; x < x2; x += (o.dens || 34) * s) plants.push(framb(x, y, s * .95, Object.assign({ anim: false }, o)));
+    for (let x = x1 + 22 * s; x < x2; x += (o.dens || 34) * s) plants.push(framb(x, y, s * .95 * H, Object.assign({ anim: false }, o)));
     g += `<line x1="${x1}" y1="${f1(w2)}" x2="${x2}" y2="${f1(w2)}" stroke="#90A4AE" stroke-width="${f1(1.2 * s)}"/>` + plants.join('') + `<line x1="${x1}" y1="${f1(w1)}" x2="${x2}" y2="${f1(w1)}" stroke="#90A4AE" stroke-width="${f1(1.2 * s)}"/>`;
     return g;
   }
@@ -2967,11 +2972,27 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   // lavamanos portátil con jabón y toalla de papel
   const lavamanos = (x, y) => `<rect x="${x}" y="${y - 60}" width="40" height="60" rx="3" fill="#ECEFF1" stroke="#78909C" stroke-width="1.5"/><path d="M${x + 4},${y - 52} h32 q0,12 -16,12 q-16,0 -16,-12z" fill="#fff" stroke="#90A4AE"/><path d="M${x + 20},${y - 60} v-8 h8" stroke="#78909C" stroke-width="3" fill="none"/><g class="cf_dr">${drop(x + 28, y - 60, .3)}</g>`
     + `<rect x="${x + 44}" y="${y - 74}" width="12" height="18" rx="3" fill="#F8BBD0" stroke="#C2185B"/><rect x="${x + 47}" y="${y - 80}" width="6" height="6" fill="#C2185B"/>${T(x + 50, y - 62, 'jabón', 6, '#880E4F', 'bold')}<rect x="${x + 44}" y="${y - 50}" width="14" height="22" rx="2" fill="#fff" stroke="#90A4AE"/><path d="M${x + 46},${y - 30} v10 h10 v-10" fill="#fff" stroke="#B0BEC5"/>`;
-  // comedor móvil (carpa con mesa y bancas)
-  const comedor = (x, y, w = 150) => `<path d="M${x},${y - 78} L${x + w / 2},${y - 104} L${x + w},${y - 78}Z" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><path d="M${x},${y - 78} h${w} v8 h${-w}z" fill="#2FC3F5"/>${[0, 1, 2, 3, 4, 5].map(i => `<path d="M${x + i * w / 6},${y - 70} q${w / 12},8 ${w / 6},0" fill="#2FC3F5"/>`).join('')}`
-    + `<rect x="${x + 4}" y="${y - 70}" width="4" height="70" fill="#90A4AE"/><rect x="${x + w - 8}" y="${y - 70}" width="4" height="70" fill="#90A4AE"/>`
-    + `<rect x="${x + 20}" y="${y - 32}" width="${w - 40}" height="5" fill="#8D6E63"/><rect x="${x + 26}" y="${y - 27}" width="4" height="27" fill="#6D4C41"/><rect x="${x + w - 30}" y="${y - 27}" width="4" height="27" fill="#6D4C41"/>`
-    + `<rect x="${x + 16}" y="${y - 14}" width="${w - 32}" height="4" fill="#A1887F"/>` + T(x + w / 2, y - 84, 'COMEDOR', 10, '#fff');
+  // bidón de agua potable con llave (x,y) = base
+  const bidon = (x, y, s = 1) => `<rect x="${f1(x - 11 * s)}" y="${f1(y - 30 * s)}" width="${f1(22 * s)}" height="${f1(30 * s)}" rx="${f1(5 * s)}" fill="#81D4FA" fill-opacity=".95" stroke="#0277BD" stroke-width="1.3"/><rect x="${f1(x - 5 * s)}" y="${f1(y - 35 * s)}" width="${f1(10 * s)}" height="${f1(6 * s)}" rx="1.5" fill="#0277BD"/><path d="M${f1(x - 7 * s)},${f1(y - 20 * s)} h${f1(14 * s)}" stroke="#fff" stroke-width="${f1(1.6 * s)}" opacity=".7"/><rect x="${f1(x + 9 * s)}" y="${f1(y - 8 * s)}" width="${f1(7 * s)}" height="${f1(4 * s)}" fill="#455A64"/><rect x="${f1(x + 13 * s)}" y="${f1(y - 5 * s)}" width="${f1(2.4 * s)}" height="${f1(4 * s)}" fill="#455A64"/>`;
+  // dispensador de toalla de papel (rollo)
+  const toalla = (x, y, s = 1) => `<rect x="${f1(x - 9 * s)}" y="${f1(y - 14 * s)}" width="${f1(18 * s)}" height="${f1(14 * s)}" rx="${f1(3 * s)}" fill="#ECEFF1" stroke="#78909C" stroke-width="1.2"/><circle cx="${x}" cy="${f1(y - 7 * s)}" r="${f1(5 * s)}" fill="#fff" stroke="#B0BEC5"/><path d="M${f1(x - 6 * s)},${y} h${f1(12 * s)} v${f1(9 * s)} l${f1(-3 * s)},${f1(2 * s)} l${f1(-3 * s)},${f1(-2 * s)} l${f1(-3 * s)},${f1(2 * s)} l${f1(-3 * s)},${f1(-2 * s)}z" fill="#fff" stroke="#B0BEC5"/>`;
+  // basurero con tapa (x,y) = base centro
+  const basurero = (x, y, s = 1, c = '#2E7D32') => `<path d="M${f1(x - 13 * s)},${f1(y - 34 * s)} h${f1(26 * s)} l${f1(-2 * s)},${f1(34 * s)} h${f1(-22 * s)}z" fill="${c}" stroke="#1B5E20" stroke-width="1.3"/><rect x="${f1(x - 15 * s)}" y="${f1(y - 39 * s)}" width="${f1(30 * s)}" height="${f1(6 * s)}" rx="2" fill="#1B5E20"/><rect x="${f1(x - 4 * s)}" y="${f1(y - 42 * s)}" width="${f1(8 * s)}" height="${f1(3 * s)}" rx="1" fill="#1B5E20"/>${T(x, y - 14 * s, '♻', 12 * s, '#fff')}`;
+  // COMEDOR MÓVIL: carrito con ruedas y lanza, techo de sombra, mesa y bancas, bidón de agua potable, toalla de papel. (x,y) = suelo bajo la rueda izq.
+  const comedor = (x, y, w = 150, o = {}) => {
+    const pf = y - 22, top = y - 112;
+    let g = `<path d="M${x},${pf + 4} h-24 l-4,3" stroke="#455A64" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="${x - 20}" y="${pf + 6}" width="3" height="${y - pf - 6}" fill="#455A64"/>`;
+    g += `<rect x="${x}" y="${pf}" width="${w}" height="8" rx="2" fill="#546E7A" stroke="#37474F" stroke-width="1.2"/>`;
+    [x + w * .3, x + w * .7].forEach(cx => { g += `<circle cx="${f1(cx)}" cy="${y - 10}" r="10" fill="#263238"/><circle cx="${f1(cx)}" cy="${y - 10}" r="4" fill="#B0BEC5"/>`; });
+    g += `<rect x="${x + 2}" y="${top + 8}" width="4" height="${pf - top - 8}" fill="#90A4AE"/><rect x="${x + w - 6}" y="${top + 8}" width="4" height="${pf - top - 8}" fill="#90A4AE"/>`;
+    g += `<path d="M${x - 8},${top + 12} L${x + 8},${top} H${x + w - 8} L${x + w + 8},${top + 12}Z" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><path d="M${x - 8},${top + 12} H${x + w + 8} v5 H${x - 8}z" fill="#2FC3F5"/>`;
+    g += `<g opacity=".18">${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => `<path d="M${f1(x + i * w / 10)},${top + 17} l-10,${pf - top - 17}" stroke="#0D1B8C" stroke-width="7"/>`).join('')}</g>`;   // sombra
+    g += `<rect x="${x + 22}" y="${pf - 34}" width="${w - 70}" height="5" rx="1" fill="#8D6E63"/><rect x="${x + 30}" y="${pf - 29}" width="4" height="29" fill="#6D4C41"/><rect x="${x + w - 56}" y="${pf - 29}" width="4" height="29" fill="#6D4C41"/>`;
+    g += `<rect x="${x + 14}" y="${pf - 16}" width="${w - 54}" height="4" fill="#A1887F"/><rect x="${x + 18}" y="${pf - 12}" width="3" height="12" fill="#6D4C41"/><rect x="${x + w - 46}" y="${pf - 12}" width="3" height="12" fill="#6D4C41"/>`;
+    g += `<rect x="${x + w - 36}" y="${pf - 40}" width="28" height="40" fill="#CFD8DC" stroke="#90A4AE"/>` + bidon(x + w - 25, pf - 40, .9) + toalla(x + w - 15, pf - 60, .8);
+    if (o.label !== false) g += T(x + w / 2, top + 11, 'COMEDOR MÓVIL', 9, '#fff');
+    return g;
+  };
   // invernadero (túnel de plástico)
   const invernadero = (x, y, w = 200, h = 110, o = {}) => `<path d="M${x},${y} V${y - h * .55} Q${x + w / 2},${y - h * 1.2} ${x + w},${y - h * .55} V${y}Z" fill="${o.dentro ? '#E8F5E9' : '#E3F2FD'}" fill-opacity="${o.dentro ? 1 : .75}" stroke="#90A4AE" stroke-width="2"/>`
     + [.2, .4, .6, .8].map(k => `<path d="M${f1(x + w * k)},${y} V${f1(y - h * .55 - Math.sin(k * Math.PI) * h * .3)}" stroke="#B0BEC5" stroke-width="1.5"/>`).join('')
@@ -3099,6 +3120,206 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + P(270, 192, { flip: true, pose: 'point' }) + lbl(160, 30, 'Basura al contenedor, nunca al campo', '#2E7D32')));
   D('cf_sv_aviso', () => svx(ext({ gy: 150 }) + bano(40, 192) + estacionAgua(120, 192) + P(230, 192, { pose: 'point', flip: true }) + P(290, 192, { flip: true, vest: true, shirt: '#455A64' })
     + lbl(150, 30, '¿Falta agua, jabón o papel? Avisa', '#1F2FD6')));
+
+  // ======================= REGLAS DEL HUERTO · COSECHA MECANIZADA · TALLER MECÁNICO (13-11-2026) =======================
+  const ST2 = '<style>'
+    + '.cf_shk{animation:cf_shk .16s linear infinite alternate}@keyframes cf_shk{from{transform:translateX(-2.2px)}to{transform:translateX(2.2px)}}'
+    + '.cf_belt{stroke-dasharray:5 5;animation:cf_belt .5s linear infinite}@keyframes cf_belt{to{stroke-dashoffset:-10}}'
+    + '.cf_spin{animation:cf_spin 1.1s linear infinite;transform-box:fill-box;transform-origin:center}@keyframes cf_spin{to{transform:rotate(360deg)}}'
+    + '.cf_fall{animation:cf_fall 1.5s ease-in infinite}@keyframes cf_fall{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(34px);opacity:0}}'
+    + '.cf_rise{animation:cf_rise 2.2s linear infinite}@keyframes cf_rise{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-92px);opacity:0}}'
+    + '.cf_puff{animation:cf_puff 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}@keyframes cf_puff{0%{transform:translate(0,0) scale(.5);opacity:.75}100%{transform:translate(-12px,-30px) scale(1.7);opacity:0}}'
+    + '.cf_snd{animation:cf_snd 1s ease-out infinite;transform-box:fill-box;transform-origin:left center}@keyframes cf_snd{0%{opacity:0;transform:scale(.7)}40%{opacity:.9}100%{opacity:0;transform:scale(1.25)}}'
+    + '.cf_leaf{animation:cf_leaf 1.8s ease-out infinite}@keyframes cf_leaf{0%{transform:translate(0,0) rotate(0);opacity:0}15%{opacity:1}100%{transform:translate(26px,-34px) rotate(160deg);opacity:0}}'
+    + '.cf_drv{animation:cf_drv 7s ease-in-out infinite alternate}@keyframes cf_drv{from{transform:translateX(-26px)}to{transform:translateX(26px)}}'
+    + '</style>';
+  const svy = inner => sv(ST + ST2 + inner);
+  const MOTOR = '<g data-motor="1"></g>', MAQ = '<g data-motor="maquina"></g>';
+  // ondas de ruido (x,y) = origen, hacia la derecha (dir 1) o izquierda (-1)
+  const ondas = (x, y, dir = 1, c = '#FF6F00') => [0, 1, 2].map(i => `<path class="cf_snd" style="animation-delay:${i * .3}s" d="M${x + dir * (6 + i * 8)},${y - 8 - i * 4} q${dir * (6 + i * 2)},${8 + i * 4} 0,${16 + i * 8}" stroke="${c}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`).join('');
+  // cigarro encendido (x,y) = punta encendida
+  const cigarro = (x, y, d = 1) => `<rect x="${d > 0 ? x - 12 : x}" y="${y - 1.6}" width="12" height="3.2" rx="1" fill="#fff" stroke="#B0BEC5" stroke-width=".5"/><rect x="${d > 0 ? x - 12 : x + 9}" y="${y - 1.6}" width="3" height="3.2" fill="#FFB74D"/><circle cx="${x}" cy="${y}" r="1.8" fill="#FF5722" class="cf_bl"/><path d="M${x},${y - 3} q-4,-6 0,-11 q4,-5 0,-10" stroke="#B0BEC5" stroke-width="1.5" fill="none" class="cf_hz"/>`;
+  // letrero redondo de prohibición con ícono adentro
+  const prohibido = (x, y, r, icon) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" stroke="#D7262B" stroke-width="${r * .16}"/>${icon}<path d="M${f1(x - r * .7)},${f1(y - r * .7)} L${f1(x + r * .7)},${f1(y + r * .7)}" stroke="#D7262B" stroke-width="${f1(r * .16)}" stroke-linecap="round"/>`;
+  // pelo largo suelto (sale bajo el legionario)
+  const pelo = (x, y, s = 1, fx = 1) => { const X = x, Y = y + POSES.stand.head[1] * s; return `<path d="M${X - 10 * s * fx},${Y - 3 * s} q${-4 * s * fx},${14 * s} ${-2 * s * fx},${30 * s} q${4 * s * fx},${-2 * s} ${6 * s * fx},${-8 * s} q${2 * s * fx},${-10 * s} ${4 * s * fx},${-20 * s}z" fill="#4E342E" stroke="${OL}" stroke-width="${.6 * s}"/><path d="M${X + 9 * s * fx},${Y - 3 * s} q${3 * s * fx},${8 * s} ${1 * s * fx},${16 * s}" stroke="#4E342E" stroke-width="${3 * s}" fill="none" stroke-linecap="round"/>`; };
+
+  // ---------- COSECHADORA DE FRAMBUESA (pasa a horcajadas sobre la hilera, como la de arándanos) · vista de lado ----------
+  // (x,y) = suelo bajo la rueda trasera; ~170 px de largo y ~165 px de alto con s = 1. Avanza hacia la derecha.
+  function cosechadora(x, y, s = 1, o = {}) {
+    const X = v => f1(x + v * s), Y = v => f1(y - v * s), c = '#1F2FD6', c2 = '#0D1B8C';
+    let g = MAQ;
+    if (!o.sinMata) g += framb(x + 70 * s, y, s * 1.12, { anim: false }) + framb(x + 108 * s, y, s * 1.08, { anim: false });   // la hilera pasa por dentro
+    // chasis: panel lateral con ventana (corte) para ver el interior
+    g += `<path fill-rule="evenodd" d="M${X(10)},${Y(26)} V${Y(148)} H${X(160)} V${Y(26)} Z M${X(26)},${Y(36)} V${Y(132)} H${X(146)} V${Y(36)} Z" fill="${c}" stroke="${c2}" stroke-width="${1.5 * s}"/>`;
+    g += `<rect x="${X(26)}" y="${Y(132)}" width="${f1(120 * s)}" height="${f1(96 * s)}" fill="none" stroke="#2FC3F5" stroke-width="${2 * s}" stroke-dasharray="${4 * s} ${3 * s}"/>`;
+    // sacudidores (varillas con dedos) a ambos lados de la mata: vibran
+    g += `<g class="cf_shk">` + [52, 74, 96, 118].map(v => `<line x1="${X(v)}" y1="${Y(124)}" x2="${X(v)}" y2="${Y(44)}" stroke="#FFC20E" stroke-width="${2.4 * s}"/>` + [0, 1, 2, 3, 4, 5].map(i => `<line x1="${X(v - 5)}" y1="${Y(52 + i * 13)}" x2="${X(v + 5)}" y2="${Y(52 + i * 13)}" stroke="#FFC20E" stroke-width="${1.6 * s}"/>`).join('')).join('') + `</g>`;
+    // fruta que cae a las bandejas recolectoras (escamas)
+    g += [[60, 0], [84, .4], [104, .8], [70, 1.1], [94, .2], [116, .6]].map(([v, d]) => `<g class="cf_fall" style="animation-delay:${d}s">${berry(x + v * s, y - 108 * s, s * .9)}</g>`).join('');
+    g += [30, 50, 70, 90, 110, 130].map(v => `<path d="M${X(v)},${Y(40)} l${f1(18 * s)},${f1(-7 * s)} l${f1(2 * s)},${f1(5 * s)} l${f1(-18 * s)},${f1(7 * s)}z" fill="#ECEFF1" stroke="#78909C" stroke-width="${.7 * s}"/>`).join('');
+    // correa transportadora: sube la fruta por atrás hasta las bandejas de arriba
+    g += `<path d="M${X(14)},${Y(34)} L${X(2)},${Y(150)}" stroke="#263238" stroke-width="${8 * s}" stroke-linecap="round"/><path d="M${X(14)},${Y(34)} L${X(2)},${Y(150)}" stroke="#90A4AE" stroke-width="${4 * s}" class="cf_belt"/>`;
+    g += [0, .55, 1.1, 1.65].map(d => `<g class="cf_rise" style="animation-delay:${d}s">${berry(x + 12 * s, y - 44 * s, s * .8)}</g>`).join('');
+    // plataforma trasera con bandejas
+    g += `<rect x="${X(-26)}" y="${Y(152)}" width="${f1(46 * s)}" height="${f1(5 * s)}" fill="#455A64"/><line x1="${X(-26)}" y1="${Y(152)}" x2="${X(-26)}" y2="${Y(172)}" stroke="#455A64" stroke-width="${2 * s}"/>` + pilaBandejas(x - 22 * s, y - 152 * s, 2, 34 * s);
+    // cabina del operador (adelante, arriba)
+    g += `<rect x="${X(110)}" y="${Y(184)}" width="${f1(48 * s)}" height="${f1(36 * s)}" rx="${4 * s}" fill="${c}" stroke="${c2}" stroke-width="${1.5 * s}"/><rect x="${X(116)}" y="${Y(180)}" width="${f1(36 * s)}" height="${f1(22 * s)}" rx="${3 * s}" fill="#B3E5FC" stroke="${c2}"/>`;
+    g += `<circle cx="${X(134)}" cy="${Y(166)}" r="${f1(6 * s)}" fill="${SK}" stroke="${OL}" stroke-width="${.7 * s}"/><path d="M${X(128)},${Y(168)} q${f1(6 * s)},${f1(-9 * s)} ${f1(12 * s)},0z" fill="#F1E3C2" stroke="${OL}" stroke-width="${.6 * s}"/><rect x="${X(129)}" y="${Y(159)}" width="${f1(10 * s)}" height="${f1(7 * s)}" fill="#2B4C9B"/>`;
+    // ventilador de limpieza (saca hojas)
+    g += `<circle cx="${X(36)}" cy="${Y(140)}" r="${f1(9 * s)}" fill="#ECEFF1" stroke="#455A64" stroke-width="${1.2 * s}"/><g class="cf_spin"><path d="M${X(36)},${Y(140)} l${f1(7 * s)},${f1(-2 * s)} l0,${f1(4 * s)}z M${X(36)},${Y(140)} l${f1(-7 * s)},${f1(2 * s)} l0,${f1(-4 * s)}z M${X(36)},${Y(140)} l${f1(-2 * s)},${f1(-7 * s)} l${f1(4 * s)},0z M${X(36)},${Y(140)} l${f1(2 * s)},${f1(7 * s)} l${f1(-4 * s)},0z" fill="#455A64"/></g>`;
+    g += [0, .6, 1.2].map(d => `<path class="cf_leaf" style="animation-delay:${d}s" d="M${X(40)},${Y(148)} q${f1(4 * s)},${f1(-4 * s)} ${f1(8 * s)},0 q${f1(-4 * s)},${f1(4 * s)} ${f1(-8 * s)},0z" fill="#43A047"/>`).join('');
+    // escape con humo
+    g += `<rect x="${X(100)}" y="${Y(200)}" width="${f1(5 * s)}" height="${f1(18 * s)}" fill="#37474F"/>` + [0, .7, 1.4].map(d => `<circle class="cf_puff" style="animation-delay:${d}s" cx="${X(102)}" cy="${Y(204)}" r="${f1(4 * s)}" fill="#90A4AE"/>`).join('');
+    // ruedas grandes
+    [30, 140].forEach(v => { g += `<circle cx="${X(v)}" cy="${Y(18)}" r="${f1(18 * s)}" fill="#263238"/><g class="cf_spin"><circle cx="${X(v)}" cy="${Y(18)}" r="${f1(9 * s)}" fill="#FFC20E" stroke="#263238" stroke-width="${1 * s}"/><path d="M${X(v - 9)},${Y(18)} H${X(v + 9)} M${X(v)},${Y(9)} V${Y(27)}" stroke="#263238" stroke-width="${2 * s}"/></g>`; });
+    if (o.ruido !== false) g += ondas(x + 162 * s, y - 120 * s, 1);
+    return g;
+  }
+  // vista de frente: la máquina "a caballo" sobre la hilera (esquema del proceso)
+  function cosechadoraFrente(cx, y, s = 1) {
+    const X = v => f1(cx + v * s), Y = v => f1(y - v * s), c = '#1F2FD6', c2 = '#0D1B8C';
+    let g = MAQ + framb(cx, y, s * 1.25, { anim: false });
+    g += `<rect x="${X(-92)}" y="${Y(160)}" width="${f1(24 * s)}" height="${f1(140 * s)}" fill="${c}" stroke="${c2}" stroke-width="1.5"/><rect x="${X(68)}" y="${Y(160)}" width="${f1(24 * s)}" height="${f1(140 * s)}" fill="${c}" stroke="${c2}" stroke-width="1.5"/>`;
+    g += `<rect x="${X(-92)}" y="${Y(176)}" width="${f1(184 * s)}" height="${f1(20 * s)}" rx="3" fill="${c}" stroke="${c2}" stroke-width="1.5"/>`;
+    // ruedas
+    [-80, 80].forEach(v => { g += `<rect x="${X(v - 11)}" y="${Y(36)}" width="${f1(22 * s)}" height="${f1(36 * s)}" rx="${6 * s}" fill="#263238"/>`; });
+    // 1) sacudidores a ambos lados
+    g += `<g class="cf_shk">` + [-50, -36, 36, 50].map(v => `<line x1="${X(v)}" y1="${Y(150)}" x2="${X(v)}" y2="${Y(46)}" stroke="#FFC20E" stroke-width="2.6"/>` + [0, 1, 2, 3, 4, 5, 6].map(i => `<line x1="${X(v)}" y1="${Y(56 + i * 14)}" x2="${X(v + (v < 0 ? 14 : -14))}" y2="${Y(56 + i * 14)}" stroke="#FFC20E" stroke-width="1.8"/>`).join('')).join('') + `</g>`;
+    // 2) fruta cae a las escamas recolectoras (abajo, inclinadas hacia afuera)
+    g += [[-20, 0], [14, .5], [-8, .9], [22, 1.2], [-26, .3]].map(([v, d]) => `<g class="cf_fall" style="animation-delay:${d}s">${berry(cx + v * s, y - 96 * s, s)}</g>`).join('');
+    g += `<path d="M${X(-66)},${Y(38)} L${X(-6)},${Y(26)} v${f1(-4 * s)} L${X(-66)},${Y(34)}z M${X(66)},${Y(38)} L${X(6)},${Y(26)} v${f1(-4 * s)} L${X(66)},${Y(34)}z" fill="#ECEFF1" stroke="#78909C" stroke-width="1.2"/>`;
+    // 3) correas que suben la fruta por los costados
+    [-80, 80].forEach(v => { g += `<path d="M${X(v)},${Y(40)} V${Y(158)}" stroke="#263238" stroke-width="${9 * s}"/><path d="M${X(v)},${Y(40)} V${Y(158)}" stroke="#90A4AE" stroke-width="${4 * s}" class="cf_belt"/>` + [0, .7, 1.4].map(d => `<g class="cf_rise" style="animation-delay:${d}s">${berry(cx + v * s, y - 50 * s, s * .9)}</g>`).join(''); });
+    // 4) ventiladores que botan las hojas
+    [-80, 80].forEach(v => { g += `<circle cx="${X(v)}" cy="${Y(186)}" r="${f1(9 * s)}" fill="#ECEFF1" stroke="#455A64" stroke-width="1.2"/><g class="cf_spin"><path d="M${X(v)},${Y(186)} l${f1(7 * s)},${f1(-2 * s)} l0,${f1(4 * s)}z M${X(v)},${Y(186)} l${f1(-7 * s)},${f1(2 * s)} l0,${f1(-4 * s)}z M${X(v)},${Y(186)} l${f1(-2 * s)},${f1(-7 * s)} l${f1(4 * s)},0z M${X(v)},${Y(186)} l${f1(2 * s)},${f1(7 * s)} l${f1(-4 * s)},0z" fill="#455A64"/></g>` + `<path class="cf_leaf" d="M${X(v)},${Y(192)} q4,-4 8,0 q-4,4 -8,0z" fill="#43A047"/>`; });
+    // 5) bandejas a los costados, arriba
+    g += pilaBandejas(cx - 128 * s, y - 154 * s, 2, 34 * s) + pilaBandejas(cx + 96 * s, y - 154 * s, 2, 34 * s);
+    g += `<rect x="${X(-130)}" y="${Y(154)}" width="${f1(40 * s)}" height="${f1(4 * s)}" fill="#455A64"/><rect x="${X(90)}" y="${Y(154)}" width="${f1(40 * s)}" height="${f1(4 * s)}" fill="#455A64"/>`;
+    return g;
+  }
+  // número en círculo para los pasos del esquema
+  const paso = (x, y, n, c = '#D7262B') => `<circle cx="${x}" cy="${y}" r="9" fill="${c}" stroke="#fff" stroke-width="2"/>${T(x, y + 4, String(n), 11, '#fff')}`;
+
+  // ---------- 1) EL HUERTO: plantas más altas que tú ----------
+  D('cf_hu_alto', () => svy(ext({ gy: 150 }) + hilera(-20, 340, 194, 1.05, { paso: 110, dens: 36 })
+    + `<g opacity=".7">${P(226, 176, { s: .92, flip: true })}</g>` + `<circle cx="226" cy="64" r="15" fill="#fff" stroke="#FFC20E" stroke-width="3"/>${T(226, 70, '?', 18, '#D7262B')}`
+    + P(84, 198, { pose: 'point' }) + `<path d="M284,${194 - 132} V194 M276,${194 - 132} h16 M276,194 h16" stroke="#D7262B" stroke-width="3"/><path d="M302,${198 - 86} V198 M296,${198 - 86} h12" stroke="#1F2FD6" stroke-width="3"/>`
+    + lbl(84, 30, 'Más alta que tú', '#1F2FD6') + lbl(226, 30, 'Al otro lado no te ven', '#C62828')));
+  // ---------- 2) COFIA bajo el legionario ----------
+  // la cofia se pone primero y el legionario encima
+  D('cf_hu_cofia', () => svy(`<rect width="320" height="200" fill="#E3F2FD"/><rect y="182" width="320" height="18" fill="#B9A27C"/>`
+    + P(62, 300, { s: 2.6, hat: false, cofia: true }) + T(122, 104, '+', 34, '#1F2FD6')
+    + `<g transform="translate(160,98) scale(2.2)"><path d="M-10.6,-2 Q-11,-14.5 0,-14 Q11,-14.5 10.6,-2 Z" fill="#F1E3C2" stroke="#22303A" stroke-width=".8"/><path d="M9,-3 q8,-.5 9,2.4 l-9.5,.4z" fill="#F1E3C2" stroke="#22303A" stroke-width=".7"/><path d="M-10,-3 q-3,9 -1,15 l6,-1 q-2,-6 1,-13z" fill="#F1E3C2" stroke="#22303A" stroke-width=".6"/></g>`
+    + T(204, 104, '=', 34, '#1F2FD6') + P(262, 300, { s: 2.6 }) + ok(296, 30, 13)
+    + lbl(66, 168, '1. Cofia primero', '#2E7D32') + lbl(262, 168, '2. Legionario encima', '#2E7D32')));
+  D('cf_hu_pelo', () => svy(`<rect width="320" height="200" fill="#E3F2FD"/><rect y="182" width="320" height="18" fill="#B9A27C"/>`
+    + P(86, 280, { s: 2.3 }) + ok(140, 40, 14) + P(236, 280, { s: 2.3, cofiaCampo: false }) + pelo(236, 280, 2.3, 1) + no(290, 40, 14)
+    + lbl(86, 184, 'Con cofia', '#2E7D32') + lbl(236, 184, 'Pelo suelto', '#C62828')));
+  // ---------- 3) SIN JOYAS ----------
+  const anillo = (x, y) => `<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="#FBC02D" stroke-width="5"/><path d="M${x - 6},${y - 15} l6,-8 l6,8z" fill="#4FC3F7" stroke="#0288D1"/>`;
+  const pulsera = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="18" ry="10" fill="none" stroke="#B0BEC5" stroke-width="4"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => `<circle cx="${f1(x + 18 * Math.cos(i * .785))}" cy="${f1(y + 10 * Math.sin(i * .785))}" r="2.6" fill="#E91E63"/>`).join('')}`;
+  const reloj = (x, y) => `<rect x="${x - 6}" y="${y - 24}" width="12" height="48" rx="3" fill="#5D4037"/><circle cx="${x}" cy="${y}" r="12" fill="#fff" stroke="#455A64" stroke-width="3"/><path d="M${x},${y} v-7 M${x},${y} h5" stroke="#263238" stroke-width="2" stroke-linecap="round"/>`;
+  const aros = (x, y) => `<path d="M${x - 9},${y - 14} q-6,8 0,18 q6,-10 0,-18z" fill="none" stroke="#FBC02D" stroke-width="3"/><circle cx="${x - 9}" cy="${y + 8}" r="4" fill="#FBC02D"/><path d="M${x + 9},${y - 14} q-6,8 0,18 q6,-10 0,-18z" fill="none" stroke="#FBC02D" stroke-width="3"/><circle cx="${x + 9}" cy="${y + 8}" r="4" fill="#FBC02D"/>`;
+  const collar = (x, y) => `<path d="M${x - 18},${y - 14} Q${x},${y + 18} ${x + 18},${y - 14}" fill="none" stroke="#FBC02D" stroke-width="3" stroke-dasharray="2 2.5"/><path d="M${x - 5},${y + 2} h10 l-5,9z" fill="#E91E63"/>`;
+  D('cf_hu_joyas', () => svy(`<rect width="320" height="200" fill="#FFF8E1"/>` + [[anillo, 'Anillos'], [pulsera, 'Pulseras'], [reloj, 'Reloj'], [aros, 'Aros'], [collar, 'Collares']].map(([f, n], i) => { const x = 34 + i * 63, y = 92; return `<rect x="${x - 28}" y="${y - 40}" width="56" height="84" rx="10" fill="#fff" stroke="#FFCC80" stroke-width="2"/>` + f(x, y - 6) + no(x + 20, y - 32, 10) + T(x, y + 36, n, 10, '#263238'); }).join('')
+    + lbl(160, 28, 'En el huerto: sin joyas', '#C62828') + lbl(160, 172, 'Se enganchan y pueden caer a la fruta', '#455A64')));
+  D('cf_hu_enganche', () => svy(ext({ gy: 150, sun: false }) + hilera(-20, 340, 196, 1.05, { paso: 130 }) + P(110, 198, { pose: 'point', face: 'pain' }) + no(110, 60)
+    + `<circle cx="140" cy="140" r="5" fill="none" stroke="#FBC02D" stroke-width="2.4"/><circle cx="140" cy="140" r="14" fill="none" stroke="#D7262B" stroke-width="3" class="cf_bl"/>` + P(236, 198, { pose: 'carry', flip: true }) + ok(236, 60)
+    + lbl(96, 30, 'Anillo enganchado', '#C62828') + lbl(240, 30, 'Sin joyas', '#2E7D32')));
+  // ---------- 4) COMEDOR MÓVIL ----------
+  D('cf_hu_comedor', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + comedor(40, 194, 150) + basurero(222, 194) + bano(258, 194)
+    + lbl(68, 22, 'Sombra', '#1F2FD6') + arrow(68, 32, 78, 76, '#1F2FD6', 2) + lbl(150, 22, 'Agua potable', '#0277BD') + arrow(160, 32, 166, 122, '#0277BD', 2)
+    + lbl(108, 186, 'Toalla de papel', '#455A64') + arrow(150, 178, 172, 150, '#455A64', 2) + lbl(222, 58, 'Basurero', '#2E7D32') + arrow(222, 68, 222, 148, '#2E7D32', 2) + lbl(284, 22, 'Baño', '#1565C0')));
+  D('cf_hu_comer', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + comedor(30, 194, 150) + P(96, 172, {}) + P(134, 172, { flip: true })
+    + `<rect x="104" y="134" width="12" height="5" rx="2" fill="#FFB74D"/><rect x="118" y="134" width="12" height="5" rx="2" fill="#81C784"/>` + basurero(214, 194) + P(268, 194, { pose: 'point', flip: true })
+    + lbl(160, 196 - 2, 'Se come solo en el comedor móvil', '#2E7D32')));
+  // ---------- 5) BASURA EN SU LUGAR ----------
+  D('cf_hu_basura', () => svy(ext({ gy: 150 }) + hilera(150, 340, 192, .95, { paso: 120 }) + basurero(70, 194, 1.2) + P(120, 194, { pose: 'point', flip: true })
+    + `<path d="M84,138 l-4,10 h8z" fill="#81D4FA" stroke="#0277BD"/>` + ok(70, 70)
+    + `<g><path d="M232,190 l10,-3 l4,6 l-11,3z" fill="#81D4FA" stroke="#0277BD"/><path d="M256,192 l14,-2 l-2,5 l-12,1z" fill="#FFB74D" stroke="#E65100"/><circle cx="214" cy="190" r="3" fill="#ECEFF1" stroke="#90A4AE"/></g><circle cx="244" cy="188" r="26" fill="none" stroke="#D7262B" stroke-width="3" class="cf_bl"/>` + no(272, 154, 11)
+    + lbl(80, 30, 'Al basurero', '#2E7D32') + lbl(244, 30, 'Nunca en la hilera', '#C62828')));
+  // ---------- 6) NO SE FUMA ----------
+  const icoCig = (x, y, r) => `<rect x="${f1(x - r * .6)}" y="${f1(y - r * .12)}" width="${f1(r * 1.0)}" height="${f1(r * .24)}" fill="#fff" stroke="#263238" stroke-width="1"/><rect x="${f1(x + r * .4)}" y="${f1(y - r * .12)}" width="${f1(r * .2)}" height="${f1(r * .24)}" fill="#FF7043"/>`;
+  D('cf_hu_fumar', () => svy(ext({ gy: 150 }) + hilera(-20, 340, 194, 1.0, { paso: 120 }) + P(110, 198, {}) + cigarro(122, 125) + no(110, 62)
+    + `<rect x="236" y="120" width="5" height="78" fill="#6D4C41"/>` + prohibido(238, 92, 32, icoCig(238, 92, 32)) + lbl(110, 30, 'Se fuma fuera del huerto', '#C62828') + lbl(238, 30, 'Prohibido fumar', '#C62828')));
+  // ---------- 7) RUIDO DE MÁQUINAS Y TRACTORES ----------
+  D('cf_hu_ruido', () => svy(ext({ gy: 150 }) + fondoHileras(150, .38) + `<g class="cf_drv">${(window.CF_TRACTOR || (() => ''))(30, 190)}</g>` + ondas(150, 120, 1)
+    + P(258, 194, { pose: 'stop', flip: true }) + `<path d="M246,118 L130,120" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5 4"/>`
+    + lbl(96, 30, 'Las máquinas meten ruido', '#E65100') + lbl(250, 60, 'Mira al operador', '#2E7D32')));
+
+  // ---------- COSECHA MECANIZADA ----------
+  D('cf_me_maquina', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + `<g class="cf_drv">${cosechadora(70, 194, .9)}</g>` + lbl(160, 18, 'La cosechadora pasa por encima de la hilera', '#1F2FD6')));
+  D('cf_me_esquema', () => svy(`<rect width="320" height="200" fill="#E3F2FD"/><rect y="186" width="320" height="14" fill="#B9A27C"/>` + cosechadoraFrente(160, 194, .9)
+    + paso(160, 50, 1) + paso(160, 166, 2) + paso(106, 120, 3) + paso(214, 120, 3) + paso(74, 16, 4, '#1F2FD6') + paso(246, 16, 4, '#1F2FD6') + paso(46, 46, 5, '#2E7D32') + paso(274, 46, 5, '#2E7D32')));
+  D('cf_me_zona', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + `<ellipse cx="148" cy="186" rx="118" ry="13" fill="#D7262B" opacity=".25" class="cf_hz"/>` + cosechadora(80, 190, .66, { ruido: false })
+    + P(232, 196, { pose: 'walk', face: 'worried', flip: true }) + no(232, 104, 11) + P(298, 196, { pose: 'stop', flip: true }) + ok(298, 104, 11)
+    + lbl(130, 26, 'Zona de peligro: nadie adentro', '#C62828')));
+  D('cf_me_ruido', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + cosechadora(34, 194, .78) + P(260, 194, { pose: 'stop', flip: true })
+    + `<path d="M250,118 L146,66" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5 4"/><circle cx="294" cy="84" r="20" fill="#fff" stroke="#2E7D32" stroke-width="3"/>${T(294, 82, 'OK', 11, '#2E7D32')}${T(294, 93, 'seña', 8, '#2E7D32', 'normal')}`
+    + lbl(110, 22, 'No te escucha: busca su mirada', '#E65100')));
+  D('cf_me_manos', () => svy(`<rect width="320" height="200" fill="#ECEFF1"/>` + `<rect x="40" y="30" width="150" height="150" rx="6" fill="#1F2FD6" opacity=".12"/>`
+    + `<g class="cf_shk">${[70, 100, 130, 160].map(v => `<line x1="${v}" y1="36" x2="${v}" y2="176" stroke="#FFC20E" stroke-width="4"/>` + [0, 1, 2, 3, 4, 5].map(i => `<line x1="${v - 8}" y1="${48 + i * 24}" x2="${v + 8}" y2="${48 + i * 24}" stroke="#FFC20E" stroke-width="2.6"/>`).join('')).join('')}</g>`
+    + `<rect x="236" y="98" width="84" height="34" rx="6" fill="#2B4C9B" stroke="${OL}" stroke-width="2"/><path d="M238,104 h-40 q-8,0 -8,8 v8 q0,8 8,8 h40z" fill="${SK}" stroke="${OL}" stroke-width="2"/>`
+    + [0, 1, 2, 3].map(i => `<rect x="${166 + (i === 0 ? 8 : 0)}" y="${101 + i * 7}" width="${i === 0 ? 24 : 30}" height="6" rx="3" fill="${SK}" stroke="${OL}" stroke-width="1.5"/>`).join('')
+    + `<circle cx="180" cy="115" r="24" fill="none" stroke="#D7262B" stroke-width="3" class="cf_bl"/>` + no(232, 74, 14) + MAQ
+    + lbl(160, 194 - 4, 'Nunca metas la mano con la máquina andando', '#C62828')));
+  D('cf_me_subir', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + cosechadora(50, 194, .82, { ruido: false })
+    + `<path d="M58,190 v-60 M68,190 v-60 M58,176 h10 M58,162 h10 M58,148 h10" stroke="#455A64" stroke-width="2.4"/>` + rot(-14, 60, 170, P(60, 170, { pose: 'stop', face: 'worried' })) + no(30, 100, 12)
+    + P(270, 194, { pose: 'stop', flip: true }) + ok(270, 104, 12) + lbl(160, 22, 'Solo sube el personal autorizado', '#C62828')));
+
+  // ---------- TALLER MECÁNICO (inducción) ----------
+  const tallerEdif = (o = {}) => `<path d="M14,186 V74 L120,40 L226,74 V186Z" fill="#B0BEC5" stroke="#546E7A" stroke-width="2"/><path d="M8,76 L120,36 L232,76" stroke="#455A64" stroke-width="6" fill="none" stroke-linecap="round"/>`
+    + `<rect x="40" y="96" width="160" height="90" fill="#37474F"/><rect x="34" y="62" width="172" height="24" rx="3" fill="#1F2FD6"/>${T(120, 79, 'TALLER MECÁNICO', 13, '#fff')}`
+    + (o.dentro !== false ? `<rect x="54" y="150" width="58" height="6" fill="#8D6E63"/><rect x="58" y="156" width="4" height="30" fill="#6D4C41"/><rect x="104" y="156" width="4" height="30" fill="#6D4C41"/>`
+      + `<circle cx="160" cy="166" r="18" fill="#263238"/><circle cx="160" cy="166" r="8" fill="#FFC20E"/>`
+      + W(84, 186, { pose: 'bend', shirt: '#455A64', pants: '#455A64', hat: false, cofiaCampo: false, glasses: true })
+      + `<g class="cf_bl">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M128,150 l${f1(10 * Math.cos(i))},${f1(-10 * Math.sin(i) - 4)}" stroke="#FFEB3B" stroke-width="2"/>`).join('')}</g>` : '');
+  const letreroAut = (x, y) => `<rect x="${x - 3}" y="${y - 96}" width="6" height="96" fill="#6D4C41"/><rect x="${x - 40}" y="${y - 140}" width="80" height="58" rx="5" fill="#fff" stroke="#D7262B" stroke-width="3"/><circle cx="${x}" cy="${y - 124}" r="10" fill="#D7262B"/><rect x="${x - 6}" y="${y - 126}" width="12" height="4" fill="#fff"/>${T(x, y - 101, 'SOLO PERSONAL', 8.5, '#D7262B')}${T(x, y - 90, 'AUTORIZADO', 9.5, '#D7262B')}`;
+  D('cf_ta_taller', () => svy(ext({ gy: 150, sun: false }) + tallerEdif() + letreroAut(262, 194) + P(296, 196, { pose: 'stop', flip: true, s: .95 })));
+  D('cf_ta_no', () => svy(ext({ gy: 150, sun: false }) + tallerEdif() + P(120, 196, { pose: 'walk' }) + no(120, 100, 13) + letreroAut(266, 194) + lbl(120, 24, 'No entres si no te corresponde', '#C62828')));
+  D('cf_ta_equipo', () => svy(ext({ gy: 150, sun: false }) + `<g>${(window.CF_TRACTOR || (() => ''))(40, 190)}</g>`
+    + `<rect x="200" y="96" width="70" height="44" rx="4" fill="#FFC20E" stroke="#263238" stroke-width="1.5"/>${T(235, 114, 'EN', 10, '#263238')}${T(235, 128, 'MANTENCIÓN', 9, '#263238')}<path d="M200,118 L150,128" stroke="#263238" stroke-width="1.5"/>`
+    + `<rect x="139" y="122" width="16" height="14" rx="2" fill="#D7262B"/><path d="M142,122 v-6 q5,-7 10,0 v6" stroke="#455A64" stroke-width="2.5" fill="none"/>` + P(286, 196, { pose: 'stop', flip: true }) + lbl(150, 26, 'Con tarjeta y candado: no se usa', '#C62828')));
+
+  // alias para la inducción (si_in_<ítem> y si_in_<ítem>_q)
+  S.si_in_cofia = S.cf_hu_cofia; S.si_in_cofia_q = S.cf_hu_pelo;
+  S.si_in_comedor = S.cf_hu_comedor; S.si_in_comedor_q = S.cf_hu_comer;
+  S.si_in_taller = S.cf_ta_taller; S.si_in_taller_q = S.cf_ta_no;
+  window.CF_COSECHADORA = cosechadora;
+
+  // ---------- SONIDO DE MOTOR al mostrar una lámina con tractor o máquina (respeta el botón de silencio) ----------
+  (function () {
+    let ctx = null, last = '';
+    const muted = () => { try { return typeof SFX !== 'undefined' ? SFX.muted : false; } catch (e) { return false; } };
+    const motor = (maq) => {
+      try {
+        if (muted()) return;
+        if (!ctx) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return; ctx = new A(); }
+        if (ctx.state === 'suspended') ctx.resume();
+        const t = ctx.currentTime, dur = maq ? 3 : 2.6, out = ctx.createGain();
+        out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(.22, t + .35); out.gain.setValueAtTime(.22, t + dur - .6); out.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = maq ? 520 : 420; lp.connect(out); out.connect(ctx.destination);
+        const o1 = ctx.createOscillator(); o1.type = 'sawtooth'; o1.frequency.setValueAtTime(38, t); o1.frequency.exponentialRampToValueAtTime(maq ? 62 : 70, t + .9); o1.frequency.exponentialRampToValueAtTime(maq ? 56 : 52, t + dur);
+        const o2 = ctx.createOscillator(); o2.type = 'square'; o2.frequency.setValueAtTime(19, t); o2.frequency.exponentialRampToValueAtTime(maq ? 31 : 35, t + .9);
+        const g2 = ctx.createGain(); g2.gain.value = .35; o2.connect(g2).connect(lp);
+        const am = ctx.createGain(); am.gain.value = .6; const lfo = ctx.createOscillator(); lfo.frequency.value = maq ? 11 : 8; const lg = ctx.createGain(); lg.gain.value = .4; lfo.connect(lg).connect(am.gain);
+        o1.connect(am).connect(lp);
+        const n = ctx.sampleRate * dur, b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        const ns = ctx.createBufferSource(); ns.buffer = b; const nf = ctx.createBiquadFilter(); nf.type = maq ? 'bandpass' : 'lowpass'; nf.frequency.value = maq ? 1400 : 300; const ng = ctx.createGain(); ng.gain.value = maq ? .18 : .3; ns.connect(nf).connect(ng).connect(out);
+        [o1, o2, lfo, ns].forEach(z => { z.start(t); z.stop(t + dur + .05); });
+      } catch (e) {}
+    };
+    const revisar = () => {
+      const c = document.getElementById('lCard'); if (!c) return;
+      const scr = document.getElementById('s-learn'); if (scr && !scr.classList.contains('on')) { last = ''; return; }
+      const h = c.querySelector('h3'), key = (h ? h.textContent : '') + '|' + c.innerHTML.length;
+      if (key === last) return; last = key;
+      const m = c.querySelector('[data-motor]'); if (m) motor(m.getAttribute('data-motor') === 'maquina');
+    };
+    const ini = () => { const c = document.getElementById('lCard'); if (!c) return setTimeout(ini, 800); new MutationObserver(() => setTimeout(revisar, 60)).observe(c, { childList: true }); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ini); else ini();
+  })();
 
   // ============ portadas pequeñas ============
   window.CF = { framb, hilera, fondoHileras, bandeja, pilaBandejas, carro, cintura, estacionAgua, bano, lavamanos, comedor, invernadero, berry };
@@ -3335,4 +3556,121 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
         { q: 'Si el comedor está dañado, ¿a quién avisas?', o: ['A mi jefatura', 'A nadie', 'A un compañero de otra empresa', 'Al comprador de la fruta'], w: 'La jefatura coordina la reparación.' }] }
     ]
   });
+
+  // ======================= CHARLAS NUEVAS (13-11-2026) =======================
+  SI_CONT.temas.push({
+    id: 'cf_huerto', sec: 'campo', emp: TODAS, title: 'Reglas del huerto de frambuesas', thumb: 'cf_hu_comedor', mins: 8,
+    learn: [
+      { s: 'cf_hu_alto', t: 'Un huerto especial: las matas son más altas que tú', x: 'En el Fundo Santa Sara las frambuesas crecen en espaldera y son <b>más altas que una persona</b>.<ul><li>Desde la otra hilera, o desde un tractor, <b>no te ven</b>.</li><li>Camina por el <b>pasillo</b>, nunca cruces a través de las matas.</li><li>Avisa a tu grupo <b>dónde estás</b> y no te alejes sola o solo.</li></ul>', k: 'Si no te ven, haz que sepan dónde estás.' },
+      { s: 'cf_hu_cofia', t: 'Cofia obligatoria en el huerto', x: 'La frambuesa va <b>directo al consumidor</b>, sin lavar. Un pelo en la fruta es un reclamo.<ul><li>Primero la <b>cofia</b>, con <b>todo el pelo adentro</b>.</li><li>Encima, el <b>legionario</b> para el sol.</li><li>Se usa <b>todo el tiempo</b> dentro del huerto.</li></ul>', k: 'Cofia primero, legionario encima.' },
+      { s: 'cf_hu_joyas', t: 'Sin joyas en el huerto', x: '<b>Anillos, pulseras, reloj, aros y collares</b> se quedan en la casa o guardados.<ul><li>Se <b>enganchan</b> en cañas, alambres y máquinas: pueden arrancarte un dedo.</li><li>Pueden <b>caer en la fruta</b> y llegar al consumidor.</li></ul>', k: 'Manos y cuello libres de joyas.' },
+      { s: 'cf_hu_comedor', t: 'El comedor móvil', x: 'Son <b>carritos con sombra</b> que se mueven por el campo. Cada uno tiene:<ul><li><b>Mesa y bancas</b> bajo techo.</li><li><b>Bidón de agua potable</b> y <b>toalla de papel</b>.</li><li><b>Basurero</b> al lado y un <b>baño químico</b> cerca.</li></ul>Aquí se come y se descansa; <b>nunca en la hilera</b>. Lávate las manos antes de comer.', k: 'Se come solo en el comedor móvil.' },
+      { s: 'cf_hu_basura', t: 'Cada basura en su lugar', x: '<ul><li>Botellas, envoltorios y restos de comida van al <b>basurero del comedor</b>.</li><li>Nada queda en la hilera: <b>contamina la fruta</b>, atrae <b>ratones</b> (hantavirus) e insectos.</li><li>Si el basurero está lleno, <b>avisa</b>.</li></ul>', k: 'Si lo trajiste, lo botas en el basurero.' },
+      { s: 'cf_hu_fumar', t: 'En el huerto no se fuma', x: '<ul><li><b>Prohibido fumar</b> dentro del huerto y entre las hileras.</li><li>La colilla y la ceniza <b>contaminan la fruta</b>, y llevas a la boca lo que tienen tus manos.</li><li>Una colilla puede <b>iniciar un incendio</b> en el pasto seco.</li></ul>', k: 'Huerto libre de humo.' },
+      { s: 'cf_hu_ruido', t: 'Tractores y máquinas meten ruido', x: 'Con el ruido del motor, <b>el operador no te escucha</b> y tú tampoco lo oyes bien.<ul><li>Busca su <b>mirada</b> y espera su <b>seña</b> antes de acercarte.</li><li>Nunca te pongas <b>delante ni detrás</b> de una máquina andando.</li><li>Las matas altas te tapan: <b>no salgas de golpe</b> de la hilera al camino.</li></ul>', k: 'Si no hay mirada, no hay paso.' }
+    ],
+    quiz: [
+      { s: 'cf_hu_alto', v: [
+        { q: 'Tienes que pasar a la hilera de al lado. ¿Cómo lo haces?', o: ['Camino por el pasillo hasta la cabecera', 'Cruzo por entre las matas', 'Paso por debajo del alambre', 'Salto el alambre de la espaldera'], w: 'Entre las matas no te ven, te enganchas y puedes caer. Se pasa por el pasillo.' },
+        { q: '¿Por qué en este huerto un tractor podría no verte?', o: ['Porque las matas son más altas que una persona', 'Porque los tractores no tienen espejos', 'Porque solo trabajan de noche', 'Siempre te ven'], w: 'Las matas altas tapan a las personas: avisa dónde estás.' },
+        { q: 'En el huerto de frambuesas es bueno que tu grupo sepa dónde estás trabajando.', vf: true, w: 'Verdadero. Con matas tan altas, nadie te ve desde lejos.' }] },
+      { s: 'cf_hu_pelo', v: [
+        { q: '¿En qué orden te pones la cofia y el legionario?', o: ['Primero la cofia con todo el pelo adentro y encima el legionario', 'Primero el legionario y la cofia encima', 'Solo el legionario', 'La cofia en el bolsillo por si acaso'], w: 'La cofia guarda el pelo; el legionario va encima para el sol.' },
+        { q: '¿Por qué es obligatoria la cofia en el huerto?', o: ['Para que ningún pelo caiga a la fruta, que va directo al consumidor', 'Solo para el sol', 'Porque es parte del uniforme de fiesta', 'No es obligatoria'], w: 'La frambuesa no se lava: un pelo en la fruta es un problema de inocuidad.' },
+        { q: 'Si tienes el pelo corto, no necesitas cofia en el huerto.', vf: false, w: 'Falso. La cofia es obligatoria para todas las personas en el huerto.' }] },
+      { s: 'cf_hu_enganche', v: [
+        { q: '¿Qué haces con tu anillo antes de entrar al huerto?', o: ['Lo dejo en la casa o guardado', 'Me lo dejo puesto bajo el guante', 'Lo cuelgo en el alambre', 'Me lo cambio de dedo'], w: 'Un anillo enganchado en un alambre o una máquina puede arrancar un dedo.' },
+        { q: '¿Cuál de estas cosas sí puedes usar en el huerto?', o: ['Ninguna joya: ni anillo, ni pulsera, ni reloj, ni aros', 'Un reloj', 'Una pulsera delgada', 'Aros pequeños'], w: 'Todas las joyas se enganchan o pueden caer a la fruta.' },
+        { q: 'Las joyas pueden caer a la bandeja y llegar al consumidor.', vf: true, w: 'Verdadero. Por eso en el huerto se trabaja sin joyas.' }] },
+      { s: 'cf_hu_comedor', v: [
+        { q: '¿Qué tiene el comedor móvil del huerto?', o: ['Sombra, mesa y bancas, agua potable, toalla de papel y basurero', 'Solo una mesa al sol', 'Una cocina a gas', 'Nada, es solo un carro'], w: 'Es un carrito con sombra, agua potable, toalla de papel y basurero, con un baño químico cerca.' },
+        { q: '¿Dónde comes tu colación?', o: ['En el comedor móvil', 'En la hilera, entre las matas', 'Arriba de un tractor', 'Sentado en las bandejas'], w: 'En la hilera se contamina la fruta y te contaminas tú.' },
+        { q: 'Antes de comer en el comedor móvil te lavas las manos.', vf: true, w: 'Verdadero. Tus manos traen tierra y pueden tener restos de productos.' }] },
+      { s: 'cf_hu_basura', v: [
+        { q: 'Terminaste tu bebida en la hilera. ¿Qué haces con la botella?', o: ['La llevo al basurero del comedor', 'La dejo bajo la mata', 'La entierro', 'La tiro al canal'], w: 'Nada de basura en la hilera: contamina y atrae ratones.' },
+        { q: 'El basurero del comedor está lleno. ¿Qué haces?', o: ['Aviso a mi jefatura', 'Dejo la basura al lado, en el suelo', 'La boto en la hilera', 'La quemo'], w: 'Se avisa para que lo vacíen.' },
+        { q: '¿Por qué la basura en el huerto es peligrosa?', o: ['Atrae ratones que transmiten el hantavirus y contamina la fruta', 'Solo porque se ve feo', 'Porque pesa', 'No es peligrosa'], w: 'El ratón colilargo transmite el hantavirus.' }] },
+      { s: 'cf_hu_fumar', v: [
+        { q: '¿Se puede fumar entre las hileras?', o: ['No, en el huerto está prohibido fumar', 'Sí, si nadie ve', 'Sí, en la hora de colación', 'Sí, si apago bien la colilla'], w: 'En el huerto no se fuma: contamina la fruta y puede causar un incendio.' },
+        { q: '¿Qué riesgo trae una colilla en el huerto?', o: ['Contaminar la fruta e iniciar un incendio', 'Ninguno', 'Que se manche la ropa', 'Que se gaste el encendedor'], w: 'La colilla contamina y el pasto seco se enciende fácil.' },
+        { q: 'Fumar en la hilera es peligroso porque llevas a la boca lo que tienen tus manos.', vf: true, w: 'Verdadero. Tus manos pueden tener tierra o restos de productos.' }] },
+      { s: 'cf_hu_ruido', v: [
+        { q: 'Un tractor se acerca por el camino y el operador no te ha visto. ¿Qué haces?', o: ['Me detengo, busco su mirada y espero su seña', 'Le grito y cruzo', 'Cruzo corriendo', 'Sigo caminando, ya me verá'], w: 'Con el ruido no te escucha: sin contacto visual no se cruza.' },
+        { q: '¿Por qué no sirve gritarle al operador de una máquina?', o: ['Porque con el ruido del motor no te escucha', 'Porque es mala educación', 'Porque se distrae', 'Sí sirve siempre'], w: 'El motor tapa tu voz. Usa la mirada y las señas.' },
+        { q: 'Salir de golpe de la hilera al camino es peligroso porque las matas te tapan.', vf: true, w: 'Verdadero. Mira antes de salir al camino.' }] }
+    ]
+  });
+
+  SI_CONT.temas.push({
+    id: 'cf_mecanizada', sec: 'campo', emp: TODAS, title: 'Cosecha mecanizada: la máquina cosechadora', thumb: 'cf_me_maquina', mins: 8,
+    learn: [
+      { s: 'cf_me_maquina', t: 'Así trabaja la cosechadora', x: 'Parte de la frambuesa se cosecha con una <b>máquina cosechadora</b>, parecida a la de arándanos. Es alta, <b>pasa por encima de la hilera</b> y avanza despacio.<ul><li>Adentro, unas varillas <b>sacuden las cañas</b>.</li><li>La fruta madura <b>cae</b>, una correa la <b>sube</b> y llega a las <b>bandejas</b>.</li></ul>Hace <b>mucho ruido</b> y vibra.', k: 'Es grande, ruidosa y no te ve.' },
+      { s: 'cf_me_esquema', t: 'El proceso paso a paso', x: '<ul><li><b>1</b> Las varillas amarillas <b>sacuden la mata</b> por ambos lados.</li><li><b>2</b> La fruta cae a las <b>escamas recolectoras</b>, abajo.</li><li><b>3</b> Las <b>correas</b> suben la fruta por los costados.</li><li><b>4</b> Los <b>ventiladores</b> botan hojas y palitos.</li><li><b>5</b> La fruta limpia llega a las <b>bandejas</b>.</li></ul>Todas estas piezas <b>se mueven</b>: pueden atrapar una mano, la ropa o el pelo.', k: 'Sacude, recoge, sube, limpia y llena bandejas.' },
+      { s: 'cf_me_zona', t: 'Zona de peligro alrededor de la máquina', x: '<ul><li>Nadie camina <b>delante</b> de la máquina en la hilera por donde avanza, ni <b>detrás</b> cuando retrocede.</li><li>En la <b>cabecera</b> la máquina <b>gira</b>: no te quedes ahí.</li><li>Las matas son altas: el operador <b>no te ve</b> si estás cerca.</li></ul>', k: 'Lejos de su camino.' },
+      { s: 'cf_me_ruido', t: 'El ruido: comunícate con la mirada', x: '<ul><li>Con el motor encendido, <b>el operador no te escucha</b>.</li><li>Antes de acercarte, <b>busca su mirada</b> y espera su <b>seña</b> de que detuvo la máquina.</li><li>Si trabajas junto a la máquina, usa el <b>protector auditivo</b> que te entreguen.</li></ul>', k: 'Primero la mirada y la seña.' },
+      { s: 'cf_me_manos', t: 'Nunca metas las manos con la máquina andando', x: '<ul><li>Si se traba, se cae una bandeja o ves un problema, <b>avisa al operador</b>.</li><li>Solo el operador o mantención autorizada destraba o limpia, con la máquina <b>detenida, apagada y bloqueada</b>.</li><li>Sin joyas, ropa suelta ni pelo fuera de la cofia cerca de la máquina.</li></ul>', k: 'Detener, apagar y bloquear antes de tocar.' },
+      { s: 'cf_me_subir', t: 'Solo sube el personal autorizado', x: '<ul><li>A la máquina <b>solo sube quien está autorizado</b>, en su puesto y con la máquina detenida.</li><li>Nunca te subas a las escaleras o costados <b>para que te lleve</b>.</li><li>Para bajar y subir: <b>tres puntos de apoyo</b>, nunca saltando.</li></ul>', k: 'La máquina no es transporte.' }
+    ],
+    quiz: [
+      { s: 'cf_me_maquina', v: [
+        { q: '¿Cómo cosecha la máquina la frambuesa?', o: ['Pasa sobre la hilera, sacude las cañas y recoge la fruta que cae', 'Corta las matas completas', 'Aspira la fruta con una manguera', 'La cosecha a mano un robot'], w: 'Las varillas sacuden la mata; la fruta madura cae y la correa la sube.' },
+        { q: 'La cosechadora es una máquina grande, ruidosa y que vibra.', vf: true, w: 'Verdadero. Por eso hay que mantenerse lejos de su camino.' },
+        { q: '¿Por dónde pasa la cosechadora?', o: ['Por encima de la hilera, a horcajadas', 'Por el lado del camino', 'Por debajo de los alambres', 'Solo por la cabecera'], w: 'La máquina abraza la hilera y avanza sobre ella.' }] },
+      { s: 'cf_me_esquema', v: [
+        { q: '¿Qué hacen las varillas amarillas de la máquina?', o: ['Sacuden la mata para que caiga la fruta madura', 'Cortan las cañas', 'Riegan las matas', 'Iluminan la hilera'], w: 'Vibran y sacuden las cañas por ambos lados.' },
+        { q: '¿Para qué sirven los ventiladores de la cosechadora?', o: ['Para botar hojas y palitos de la fruta', 'Para refrescar al operador', 'Para secar la fruta', 'Para espantar abejas'], w: 'Limpian la fruta antes de que llegue a las bandejas.' },
+        { q: 'Las piezas de la cosechadora que se mueven pueden atrapar una mano, la ropa o el pelo.', vf: true, w: 'Verdadero. Nunca te acerques a ellas con la máquina andando.' }] },
+      { s: 'cf_me_zona', v: [
+        { q: 'La cosechadora viene avanzando por tu hilera. ¿Qué haces?', o: ['Salgo de su camino por el pasillo y me alejo', 'Sigo cosechando delante de ella', 'Me agacho para que pase', 'Me quedo quieto en la hilera'], w: 'Nadie se queda delante de una máquina que avanza.' },
+        { q: '¿Por qué no debes quedarte en la cabecera cuando llega la máquina?', o: ['Porque ahí gira y no te ve', 'Porque se ensucia la ropa', 'Porque es zona de descanso', 'Sí puedes quedarte'], w: 'En la cabecera la máquina gira y puede pasarte por encima.' },
+        { q: 'Estar cerca de la máquina es seguro si el operador es tu conocido.', vf: false, w: 'Falso. Las matas te tapan y el operador no te ve.' }] },
+      { s: 'cf_me_ruido', v: [
+        { q: 'Necesitas decirle algo al operador de la cosechadora. ¿Qué haces?', o: ['Busco su mirada y espero su seña de que detuvo la máquina', 'Le grito desde atrás', 'Me subo a la máquina andando', 'Le tiro una bandeja'], w: 'Con el ruido no te escucha: primero la mirada y la seña.' },
+        { q: 'Si trabajas junto a la cosechadora, ¿qué EPP agregas?', o: ['El protector auditivo que me entreguen', 'Nada más', 'Una bufanda', 'Audífonos con música'], w: 'El ruido fuerte y constante daña el oído.' },
+        { q: 'Con el motor encendido, el operador puede escucharte bien si gritas fuerte.', vf: false, w: 'Falso. El motor tapa tu voz.' }] },
+      { s: 'cf_me_manos', v: [
+        { q: 'Se trabó una rama en las varillas de la máquina. ¿Qué haces?', o: ['Aviso al operador para que detenga, apague y bloquee', 'La saco con la mano rápido', 'La empujo con un palo con la máquina andando', 'No digo nada'], w: 'Destraba solo personal autorizado, con la máquina detenida y bloqueada.' },
+        { q: '¿Qué se hace antes de limpiar o destrabar la máquina?', o: ['Detenerla, apagarla y bloquearla', 'Bajar la velocidad', 'Avisar por radio y meter la mano', 'Nada, se hace rápido'], w: 'Detener, apagar y bloquear: así no arranca mientras alguien la toca.' },
+        { q: 'Meter la mano en la máquina andando es aceptable si es solo un segundo.', vf: false, w: 'Falso. En un segundo la máquina atrapa la mano.' }] },
+      { s: 'cf_me_subir', v: [
+        { q: 'Terminaste tu hilera y la cosechadora va hacia el mismo lado. ¿Te subes?', o: ['No, la máquina no es transporte; voy caminando', 'Sí, en la escalera', 'Sí, en el costado', 'Sí, si el operador no ve'], w: 'Solo sube el personal autorizado, en su puesto.' },
+        { q: '¿Quién puede subir a la cosechadora?', o: ['Solo el personal autorizado, en su puesto', 'Cualquiera que esté cansado', 'Los que cosechan más rápido', 'Todos al final del día'], w: 'Subir sin autorización es riesgo de caída y atropello.' },
+        { q: 'Para bajar de una máquina se usan tres puntos de apoyo, sin saltar.', vf: true, w: 'Verdadero. Saltar causa torceduras y caídas.' }] }
+    ]
+  });
+
+  // ---------- ítems nuevos de la inducción (Daniel, 13-11-2026): cofia y joyas, comedor móvil, taller mecánico ----------
+  const IND_NUEVOS = [
+    { despues: 'orden', s: 'cofia', t: 'En el huerto: cofia, legionario y sin joyas',
+      x: 'La frambuesa va <b>directo al consumidor</b>, sin lavar.<ul><li><b>Cofia obligatoria</b> en el huerto, con todo el pelo adentro, y el <b>legionario</b> encima.</li><li><b>Sin joyas</b>: anillos, pulseras, reloj, aros y collares se enganchan en cañas, alambres y máquinas, y pueden caer a la fruta.</li><li>En el huerto <b>no se fuma</b>.</li></ul>', k: 'Cofia, legionario y manos sin joyas.',
+      q: [
+        { q: '¿Qué te pones en la cabeza para trabajar en el huerto?', o: ['La cofia con todo el pelo adentro y el legionario encima', 'Solo el legionario', 'Un jockey', 'Nada si hay sombra'], w: 'La cofia es obligatoria y el legionario va encima para el sol.' },
+        { q: '¿Por qué en el huerto se trabaja sin anillos ni pulseras?', o: ['Se enganchan en cañas, alambres y máquinas, y pueden caer a la fruta', 'Para que no se rayen', 'Porque se pierden', 'Sí se pueden usar'], w: 'Una joya enganchada puede arrancar un dedo.' },
+        { q: 'En el huerto de frambuesas está prohibido fumar.', vf: true, w: 'Verdadero. Contamina la fruta y puede iniciar un incendio.' }] },
+    { despues: 'cofia', s: 'comedor', t: 'Comedores móviles, agua potable y basura',
+      x: 'En el campo hay <b>comedores móviles</b>: carritos con <b>sombra</b>, mesa y bancas, <b>bidón de agua potable</b>, <b>toalla de papel</b> y <b>basurero</b>, con un <b>baño químico</b> cerca.<ul><li>Se come <b>solo en el comedor</b>, nunca en la hilera.</li><li>Lávate las manos antes de comer y después del baño.</li><li>La <b>basura al basurero</b>: nada queda en el huerto.</li></ul>', k: 'Comer en el comedor; la basura, en su lugar.',
+      q: [
+        { q: '¿Dónde comes durante la jornada en el campo?', o: ['En el comedor móvil', 'En la hilera', 'Arriba del tractor', 'Donde me pille la hora'], w: 'El comedor tiene sombra, agua potable y basurero.' },
+        { q: '¿Dónde va la botella vacía de tu bebida?', o: ['Al basurero del comedor', 'Bajo la mata', 'Al canal', 'Enterrada'], w: 'La basura en el huerto contamina y atrae ratones.' },
+        { q: 'El comedor móvil tiene agua potable y toalla de papel para lavarse y secarse.', vf: true, w: 'Verdadero. Y un baño químico cerca.' }] },
+    { despues: 'pts', s: 'taller', t: 'Taller mecánico: solo personal autorizado',
+      x: 'En el fundo hay un <b>taller mecánico</b> donde se <b>reparan y adaptan</b> tractores, la cosechadora y otros equipos.<ul><li><b>Solo entra el personal autorizado</b>: hay soldadura, esmeril, piezas pesadas, equipos levantados y combustibles.</li><li>Si necesitas algo del taller, <b>pídelo a tu jefatura</b>; no entres ni uses sus herramientas.</li><li>Un equipo con <b>tarjeta y candado</b> está en mantención: <b>no se usa</b> ni se enciende.</li><li>No mires la luz de la <b>soldadura</b>: daña los ojos.</li></ul>', k: 'Si no estás autorizado, no entras.',
+      q: [
+        { q: 'Necesitas una herramienta que está en el taller mecánico. ¿Qué haces?', o: ['La pido a mi jefatura; no entro si no estoy autorizado', 'Entro y la saco', 'Entro cuando no hay nadie', 'Le pido a un amigo que me abra'], w: 'Al taller solo entra el personal autorizado.' },
+        { q: 'Un tractor tiene tarjeta y candado de mantención. ¿Qué significa?', o: ['Está en reparación: no se usa ni se enciende', 'Que está listo para usarse', 'Que es nuevo', 'Que es del jefe'], w: 'La tarjeta y el candado protegen a quien lo está reparando.' },
+        { q: 'Mirar la luz de la soldadura sin protección daña los ojos.', vf: true, w: 'Verdadero. La luz del arco quema la vista.' }] }
+  ];
+  try {
+    SI_CONT.temas.filter(t => t.id === 'induccion').forEach(t => {
+      const e = t.emp[0], Pt = v => typeof window.siTxt === 'function' ? window.siTxt(v, e) : v;
+      IND_NUEVOS.forEach(it => {
+        const i = t.learn.findIndex(l => l.s === 'si_in_' + it.despues); const at = i >= 0 ? i + 1 : t.learn.length;
+        t.learn.splice(at, 0, { s: 'si_in_' + it.s, t: Pt(it.t), x: Pt(it.x), k: Pt(it.k) });
+        const j = t.quiz.findIndex(q => q.s === 'si_in_' + it.despues + '_q'); const qa = j >= 0 ? j + 1 : t.quiz.length;
+        t.quiz.splice(qa, 0, { s: 'si_in_' + it.s + '_q', v: it.q });
+      });
+      t.mins = Math.max(t.mins, 50);
+    });
+  } catch (e) { console.log('inducción nuevos ítems: ' + e); }
+
 })();

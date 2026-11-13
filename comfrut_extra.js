@@ -27,7 +27,7 @@
   // ---------- 2) Secciones (cada una dice para qué empresas existe)
   const SI_SECS = [
     { id: 'todos', t: 'Para todos', ic: '⭐', c: '#1F2FD6', d: 'Lo que todo el equipo del fundo debe saber', emp: ORDEN_EMP },
-    { id: 'campo', t: 'Campo de frambuesas', ic: '🫐', c: '#C2185B', d: 'Cosecha, poda y amarre, estructura, invernaderos, baños, agua y comedores', emp: ORDEN_EMP },
+    { id: 'campo', t: 'Campo de frambuesas', ic: '🫐', c: '#C2185B', d: 'Reglas del huerto, cosecha a mano y mecanizada, poda, estructura, invernaderos, baños, agua y comedores', emp: ORDEN_EMP },
     { id: 'tractor', t: 'Tractor y maquinaria', ic: '🚜', c: '#0D1B8C', d: 'Vuelco, toma de fuerza e implementos', emp: ORDEN_EMP }
   ];
   const ORDEN_SEC = SI_SECS.map(s => s.id);
@@ -62,7 +62,7 @@
     ag_aplicacion: [N.ds57, N.dec158, N.ds594], ag_reingreso: [N.dec158, N.ds57], ag_tractor: [N.ds594, N.l18290], ag_tdf: [N.ds594],
     herramientas: [N.ds594], altura: [N.ds594], grua_operacion: [N.l18290, N.ds594], horquilla_checklist: [N.ds594], camion_conduccion: [N.l18290], vehiculo_menor: [N.l18290],
     pvd: [N.ds594, N.tmert], oficina: [N.ds594], visitas_terreno: [N.ds44, N.ds594],
-    cf_cosecha: [N.ds594, N.tmert, N.l20949, N.l20096], cf_poda: [N.ds594, N.tmert], cf_estructura: [N.ds594, N.l20949], cf_invernadero: [N.ds594, N.dec158], cf_servicios: [N.ds594]
+    cf_cosecha: [N.ds594, N.tmert, N.l20949, N.l20096], cf_poda: [N.ds594, N.tmert], cf_estructura: [N.ds594, N.l20949], cf_invernadero: [N.ds594, N.dec158], cf_servicios: [N.ds594], cf_huerto: [N.ds594], cf_mecanizada: [N.ds594, N.prexor, N.ds44]
   };
 
   // ---------- 4) Construir las charlas de una empresa (textos con [[L:..|X:..|A:..|I:..]] resueltos)
@@ -93,7 +93,7 @@
     // plan personal: primero lo crítico de cada sección
     try {
       PLAN_CFG.ordenSec = secs.map(s => s.id);
-      PLAN_CFG.critico = { campo: ['cf_cosecha', 'cf_servicios', 'cf_poda', 'ag_terreno', 'cf_estructura', 'ag_reingreso'], tractor: ['ag_tractor', 'ag_tdf'] };
+      PLAN_CFG.critico = { campo: ['cf_huerto', 'cf_cosecha', 'cf_mecanizada', 'cf_servicios', 'cf_poda', 'ag_terreno', 'cf_estructura', 'ag_reingreso'], tractor: ['ag_tractor', 'ag_tdf'] };
       PLAN_CFG.base = ['peligros', 'accidente', 'epp', 'cargas', 'trayecto', 'emergencias', 'senaletica', 'karin', 'psicosocial', 'enfermedades', 'hanta', 'iluminacion', 'orden', 'incendios'];
       PLAN_TEMPORADA.calor = [10, 11, 0, 1]; PLAN_TEMPORADA.hanta = [8, 9, 10, 11];
       delete PLAN_TEMPORADA.transito;
@@ -391,6 +391,10 @@
       items: [['Doblar las rodillas para la fruta de abajo', 0, 'cf_co_postura:R'], ['Doblar la espalda durante horas', 1, 'cf_co_postura:L'], ['Llevar las bandejas en el carro', 0, 'cf_co_bandejas:R'],
         ['Una pila alta de bandejas que tapa la vista', 1, 'cf_co_bandejas:L'], ['Lavarse las manos antes de cosechar', 0, 'cf_co_inocuidad'], ['Poner en la bandeja la fruta que cayó al suelo', 1, 'cf_co_suelo']],
       w: 'Así sí: rodillas dobladas, carro para las bandejas y manos lavadas. Así no: espalda doblada horas, pilas que tapan la vista y fruta del suelo en la bandeja.' },
+    { tema: 'cf_huerto', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: reglas del huerto. ¿Así sí o así no?',
+      items: [['Cofia con todo el pelo adentro', 0, 'cf_hu_pelo:L'], ['Pelo suelto, sin cofia', 1, 'cf_hu_pelo:R'], ['Botar la botella en el basurero', 0, 'cf_hu_basura:L'],
+        ['Trabajar con anillo en el huerto', 1, 'cf_hu_enganche:L'], ['Comer en el comedor móvil', 0, 'cf_hu_comer'], ['Fumar entre las hileras', 1, 'cf_hu_fumar']],
+      w: 'Así sí: cofia y legionario, basura al basurero y comer en el comedor. Así no: pelo suelto, joyas o fumar en el huerto.' },
     { tema: 'cf_servicios', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: baños, agua y comedor. ¿Así sí o así no?',
       items: [['Comer en el comedor móvil', 0, 'cf_sv_comedor'], ['Tomar agua del canal', 1, 'cf_sv_canal'], ['Lavarse las manos al salir del baño', 0, 'cf_sv_manos'],
         ['Comer en la hilera', 1, 'cf_sv_hilera'], ['Avisar si falta jabón o papel', 0, 'cf_sv_aviso'], ['Dejar la basura en el campo', 1, '']],

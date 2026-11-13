@@ -21,6 +21,8 @@
       let g = W0(x, y, Object.assign({}, o, { anim: undefined }));
       if (o.hat === 'legion' && !o.helmet && !o.cofia) {   // gorro legionario: visera y paño que cubre la nuca
         const P = POSES[o.pose || 'stand'], s = o.s || 1, fx = o.flip ? -1 : 1, X = x + P.head[0] * s * fx, Y = y + P.head[1] * s;
+        if (o.cofiaCampo !== false)   // cofia (malla blanca) bajo el legionario: asoma como una franja blanca bajo el ala
+          g += `<path d="M${X - 10.5 * s},${Y - 1.2 * s} H${X + 10.5 * s}" stroke="#FFFFFF" stroke-width="${1.9 * s}" fill="none"/><path d="M${X - 10.5 * s},${Y - 1.2 * s} H${X + 10.5 * s}" stroke="#90A4AE" stroke-width="${.35 * s}" stroke-dasharray="${.7 * s} ${.7 * s}" fill="none"/>`;
         g += `<path d="M${X - 10.6 * s},${Y - 2 * s} Q${X - 11 * s},${Y - 14.5 * s} ${X},${Y - 14 * s} Q${X + 11 * s},${Y - 14.5 * s} ${X + 10.6 * s},${Y - 2 * s} Z" fill="${o.hatColor || '#F1E3C2'}" stroke="#22303A" stroke-width="${1 * s}"/>`
           + `<path d="M${X + 9 * s * fx},${Y - 3 * s} q${8 * s * fx},${-.5 * s} ${9 * s * fx},${2.4 * s} l${-9.5 * s * fx},${.4 * s} z" fill="${o.hatColor || '#F1E3C2'}" stroke="#22303A" stroke-width="${.9 * s}"/>`
           + `<path d="M${X - 10 * s * fx},${Y - 3 * s} q${-3 * s * fx},${9 * s} ${-1 * s * fx},${15 * s} l${6 * s * fx},${-1 * s} q${-2 * s * fx},${-6 * s} ${1 * s * fx},${-13 * s} z" fill="${o.hatColor || '#F1E3C2'}" stroke="#22303A" stroke-width="${.8 * s}"/>`;
