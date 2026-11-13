@@ -35,7 +35,7 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
     + `<line x1="${x - 16}" y1="${y}" x2="${x - 1}" y2="${y - h}" stroke="#B0BEC5" stroke-width="5" stroke-linecap="round"/><line x1="${x + 16}" y1="${y}" x2="${x + 3}" y2="${y - h}" stroke="#B0BEC5" stroke-width="5" stroke-linecap="round"/>`;
     for (let i = 1; i < 7; i++) { const k = i / 7, yy = y - h * k; g += `<line x1="${f1(x - 16 + 15 * k)}" y1="${f1(yy)}" x2="${f1(x + 16 - 13 * k)}" y2="${f1(yy)}" stroke="#90A4AE" stroke-width="3"/>`; }
     return rot ? `<g transform="rotate(${rot} ${x} ${y})">${g}</g>` : g; };
-  tractor = (f => (...a) => '<g data-motor="1"></g>' + f(...a))(tractor);
+  tractor = (f => (...a) => '<g data-motor="1"' + (a[2] && a[2].flip ? ' data-flip="1"' : '') + '>' + f(...a) + '</g>')(tractor);
   function tractor(x, y, o = {}) {   // x = rueda trasera izquierda aprox.; ~125 px de largo
     let g = `<rect x="${x + 50}" y="${y - 50}" width="68" height="24" rx="5" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><rect x="${x + 112}" y="${y - 46}" width="8" height="16" fill="#9E9E9E"/>`
       + `<rect x="${x + 22}" y="${y - 58}" width="40" height="30" rx="4" fill="#1A27B0"/><rect x="${x + 90}" y="${y - 70}" width="5" height="20" fill="#424242"/>`
@@ -565,7 +565,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + `<rect x="${x}" y="${y - 62}" width="${w}" height="14" rx="7" fill="#37474F"/><rect x="${x + 4}" y="${y - 60}" width="${w - 8}" height="4" fill="#546E7A"/>`
     + `<circle cx="${x + 7}" cy="${y - 55}" r="5" fill="#90A4AE"/><circle cx="${x + w - 7}" cy="${y - 55}" r="5" fill="#90A4AE"/>`
     + (fruta ? `<clipPath id="t1Cc${x}"><rect x="${x}" y="${y - 76}" width="${w}" height="16"/></clipPath><g clip-path="url(#t1Cc${x})"><g class="t1Cin">${Array.from({ length: Math.ceil(w / 12) + 3 }, (_, i) => `<circle cx="${x - 24 + i * 12}" cy="${y - 65}" r="4" fill="${i % 3 ? '#C62828' : '#AD1457'}"/>`).join('')}</g></g>` : '');
-  const tractor = (...a) => '<g data-motor="1"></g>' + tractor_m(...a); const tractor_m = (x, y, o = {}) => { const c = o.c || '#1F2FD6'; let g = `<rect x="${x + 36}" y="${y - 58}" width="96" height="30" rx="6" fill="${c}" stroke="#0D1B8C" stroke-width="1.5"/><rect x="${x + 120}" y="${y - 54}" width="14" height="22" rx="2" fill="#263238"/>`
+  const tractor = (...a) => '<g data-motor="1"' + (a[2] && a[2].flip ? ' data-flip="1"' : '') + '>' + tractor_m(...a) + '</g>'; const tractor_m = (x, y, o = {}) => { const c = o.c || '#1F2FD6'; let g = `<rect x="${x + 36}" y="${y - 58}" width="96" height="30" rx="6" fill="${c}" stroke="#0D1B8C" stroke-width="1.5"/><rect x="${x + 120}" y="${y - 54}" width="14" height="22" rx="2" fill="#263238"/>`
       + `<rect x="${x + 110}" y="${y - 76}" width="5" height="20" fill="#455A64"/><path d="M${x + 22},${y - 58} v-48 h40 v48" fill="none" stroke="#263238" stroke-width="4"/><rect x="${x + 22}" y="${y - 62}" width="44" height="8" fill="#37474F"/>`
       + `<circle cx="${x + 34}" cy="${y - 28}" r="28" fill="#263238"/><circle cx="${x + 34}" cy="${y - 28}" r="12" fill="#FDD835"/><circle cx="${x + 34}" cy="${y - 28}" r="4" fill="#263238"/>`
       + `<circle cx="${x + 118}" cy="${y - 16}" r="16" fill="#263238"/><circle cx="${x + 118}" cy="${y - 16}" r="7" fill="#FDD835"/>`;
@@ -1380,7 +1380,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + [x + 12, x + 50].map(cx => `<circle cx="${cx}" cy="${y - 10}" r="10" fill="#263238"/><circle cx="${cx}" cy="${y - 10}" r="3.8" fill="#90A4AE"/>`).join('')
     + (o.load ? bin(x + 66, y - (o.lift || 10) - 4) : '') + (o.light ? `<circle cx="${x + 46}" cy="${y - 76}" r="4" fill="#FF6F00" class="t2bl"/>` : '');
     return o.flip ? `<g transform="translate(${2 * x + 110},0) scale(-1,1)">${g}</g>` : g; };
-  const tractor = (...a) => '<g data-motor="1"></g>' + tractor_m(...a); const tractor_m = (x, y, s = 1) => `<g transform="translate(${x},${y}) scale(${s})"><rect x="-6" y="-58" width="70" height="30" rx="4" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><path d="M38,-58 v-34 h28 v34" fill="#BBDEFB" stroke="#263238" stroke-width="3"/><rect x="34" y="-96" width="36" height="5" fill="#263238"/><rect x="8" y="-74" width="5" height="18" fill="#263238"/>`
+  const tractor = (...a) => '<g data-motor="1"' + (a[2] && a[2].flip ? ' data-flip="1"' : '') + '>' + tractor_m(...a) + '</g>'; const tractor_m = (x, y, s = 1) => `<g transform="translate(${x},${y}) scale(${s})"><rect x="-6" y="-58" width="70" height="30" rx="4" fill="#1F2FD6" stroke="#0D1B8C" stroke-width="1.5"/><path d="M38,-58 v-34 h28 v34" fill="#BBDEFB" stroke="#263238" stroke-width="3"/><rect x="34" y="-96" width="36" height="5" fill="#263238"/><rect x="8" y="-74" width="5" height="18" fill="#263238"/>`
     + `<circle cx="54" cy="-26" r="26" fill="#263238"/><circle cx="54" cy="-26" r="10" fill="#FFC107"/><circle cx="0" cy="-14" r="14" fill="#263238"/><circle cx="0" cy="-14" r="5" fill="#FFC107"/></g>`;
   const out = () => (E() === 'agricola' ? field() : patio());
   // objetos
@@ -2251,7 +2251,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     if (o.fruit) for (let i = 0; i < 9; i++) g += `<circle cx="${x + 6 * s + i * 5 * s}" cy="${y - h - 1 * s + (i % 2) * 1.5 * s}" r="${2.8 * s}" fill="${o.fruit}"/>`;
     return g; };
   // tractor vista lateral. x = borde trasero, y = suelo, mira a la derecha (flip: a la izquierda, x sigue siendo el borde trasero)
-  tractor = (f => (...a) => '<g data-motor="1"></g>' + f(...a))(tractor);
+  tractor = (f => (...a) => '<g data-motor="1"' + (a[2] && a[2].flip ? ' data-flip="1"' : '') + '>' + f(...a) + '</g>')(tractor);
   function tractor(x, y, o = {}) {
     const s = o.s || 1, c = o.c || '#1F2FD6', c2 = o.c2 || '#0D1B8C';
     let g = '';
@@ -3134,7 +3134,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + '.cf_drv{animation:cf_drv 7s ease-in-out infinite alternate}@keyframes cf_drv{from{transform:translateX(-26px)}to{transform:translateX(26px)}}'
     + '</style>';
   const svy = inner => sv(ST + ST2 + inner);
-  const MOTOR = '<g data-motor="1"></g>', MAQ = '<g data-motor="maquina"></g>';
+  const MAQ = '<g data-motor="maquina"></g>', TALLER = '<g data-motor="taller"></g>';
   // ondas de ruido (x,y) = origen, hacia la derecha (dir 1) o izquierda (-1)
   const ondas = (x, y, dir = 1, c = '#FF6F00') => [0, 1, 2].map(i => `<path class="cf_snd" style="animation-delay:${i * .3}s" d="M${x + dir * (6 + i * 8)},${y - 8 - i * 4} q${dir * (6 + i * 2)},${8 + i * 4} 0,${16 + i * 8}" stroke="${c}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`).join('');
   // cigarro encendido (x,y) = punta encendida
@@ -3203,7 +3203,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
 
   // ---------- 1) EL HUERTO: plantas más altas que tú ----------
   D('cf_hu_alto', () => svy(ext({ gy: 150 }) + hilera(-20, 340, 194, 1.05, { paso: 110, dens: 36 })
-    + `<g opacity=".7">${P(226, 176, { s: .92, flip: true })}</g>` + `<circle cx="226" cy="64" r="15" fill="#fff" stroke="#FFC20E" stroke-width="3"/>${T(226, 70, '?', 18, '#D7262B')}`
+    + `<g opacity=".7">${P(226, 176, { s: .92, flip: true })}</g>` + `<g class="cf_pu"><circle cx="226" cy="64" r="15" fill="#fff" stroke="#FFC20E" stroke-width="3"/>${T(226, 70, '?', 18, '#D7262B')}</g>`
     + P(84, 198, { pose: 'point' }) + `<path d="M284,${194 - 132} V194 M276,${194 - 132} h16 M276,194 h16" stroke="#D7262B" stroke-width="3"/><path d="M302,${198 - 86} V198 M296,${198 - 86} h12" stroke="#1F2FD6" stroke-width="3"/>`
     + lbl(84, 30, 'Más alta que tú', '#1F2FD6') + lbl(226, 30, 'Al otro lado no te ven', '#C62828')));
   // ---------- 2) COFIA bajo el legionario ----------
@@ -3222,13 +3222,13 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   const reloj = (x, y) => `<rect x="${x - 6}" y="${y - 24}" width="12" height="48" rx="3" fill="#5D4037"/><circle cx="${x}" cy="${y}" r="12" fill="#fff" stroke="#455A64" stroke-width="3"/><path d="M${x},${y} v-7 M${x},${y} h5" stroke="#263238" stroke-width="2" stroke-linecap="round"/>`;
   const aros = (x, y) => `<path d="M${x - 9},${y - 14} q-6,8 0,18 q6,-10 0,-18z" fill="none" stroke="#FBC02D" stroke-width="3"/><circle cx="${x - 9}" cy="${y + 8}" r="4" fill="#FBC02D"/><path d="M${x + 9},${y - 14} q-6,8 0,18 q6,-10 0,-18z" fill="none" stroke="#FBC02D" stroke-width="3"/><circle cx="${x + 9}" cy="${y + 8}" r="4" fill="#FBC02D"/>`;
   const collar = (x, y) => `<path d="M${x - 18},${y - 14} Q${x},${y + 18} ${x + 18},${y - 14}" fill="none" stroke="#FBC02D" stroke-width="3" stroke-dasharray="2 2.5"/><path d="M${x - 5},${y + 2} h10 l-5,9z" fill="#E91E63"/>`;
-  D('cf_hu_joyas', () => svy(`<rect width="320" height="200" fill="#FFF8E1"/>` + [[anillo, 'Anillos'], [pulsera, 'Pulseras'], [reloj, 'Reloj'], [aros, 'Aros'], [collar, 'Collares']].map(([f, n], i) => { const x = 34 + i * 63, y = 92; return `<rect x="${x - 28}" y="${y - 40}" width="56" height="84" rx="10" fill="#fff" stroke="#FFCC80" stroke-width="2"/>` + f(x, y - 6) + no(x + 20, y - 32, 10) + T(x, y + 36, n, 10, '#263238'); }).join('')
+  D('cf_hu_joyas', () => svy(`<rect width="320" height="200" fill="#FFF8E1"/>` + [[anillo, 'Anillos'], [pulsera, 'Pulseras'], [reloj, 'Reloj'], [aros, 'Aros'], [collar, 'Collares']].map(([f, n], i) => { const x = 34 + i * 63, y = 92; return `<rect x="${x - 28}" y="${y - 40}" width="56" height="84" rx="10" fill="#fff" stroke="#FFCC80" stroke-width="2"/>` + f(x, y - 6) + `<g class="cf_pu" style="animation-delay:${i * .25}s">${no(x + 20, y - 32, 10)}</g>` + T(x, y + 36, n, 10, '#263238'); }).join('')
     + lbl(160, 28, 'En el huerto: sin joyas', '#C62828') + lbl(160, 172, 'Se enganchan y pueden caer a la fruta', '#455A64')));
   D('cf_hu_enganche', () => svy(ext({ gy: 150, sun: false }) + hilera(-20, 340, 196, 1.05, { paso: 130 }) + P(110, 198, { pose: 'point', face: 'pain' }) + no(110, 60)
     + `<circle cx="140" cy="140" r="5" fill="none" stroke="#FBC02D" stroke-width="2.4"/><circle cx="140" cy="140" r="14" fill="none" stroke="#D7262B" stroke-width="3" class="cf_bl"/>` + P(236, 198, { pose: 'carry', flip: true }) + ok(236, 60)
     + lbl(96, 30, 'Anillo enganchado', '#C62828') + lbl(240, 30, 'Sin joyas', '#2E7D32')));
   // ---------- 4) COMEDOR MÓVIL ----------
-  D('cf_hu_comedor', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + comedor(40, 194, 150) + basurero(222, 194) + bano(258, 194)
+  D('cf_hu_comedor', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + comedor(40, 194, 150) + `<g class="cf_dr">${drop(203, 162, .3, '#4FC3F7')}</g>` + basurero(222, 194) + bano(258, 194)
     + lbl(68, 22, 'Sombra', '#1F2FD6') + arrow(68, 32, 78, 76, '#1F2FD6', 2) + lbl(150, 22, 'Agua potable', '#0277BD') + arrow(160, 32, 166, 122, '#0277BD', 2)
     + lbl(108, 186, 'Toalla de papel', '#455A64') + arrow(150, 178, 172, 150, '#455A64', 2) + lbl(222, 58, 'Basurero', '#2E7D32') + arrow(222, 68, 222, 148, '#2E7D32', 2) + lbl(284, 22, 'Baño', '#1565C0')));
   D('cf_hu_comer', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + comedor(30, 194, 150) + P(96, 172, {}) + P(134, 172, { flip: true })
@@ -3236,7 +3236,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + lbl(160, 196 - 2, 'Se come solo en el comedor móvil', '#2E7D32')));
   // ---------- 5) BASURA EN SU LUGAR ----------
   D('cf_hu_basura', () => svy(ext({ gy: 150 }) + hilera(150, 340, 192, .95, { paso: 120 }) + basurero(70, 194, 1.2) + P(120, 194, { pose: 'point', flip: true })
-    + `<path d="M84,138 l-4,10 h8z" fill="#81D4FA" stroke="#0277BD"/>` + ok(70, 70)
+    + `<g class="cf_fall"><path d="M84,124 l-4,10 h8z" fill="#81D4FA" stroke="#0277BD"/></g>` + ok(70, 70)
     + `<g><path d="M232,190 l10,-3 l4,6 l-11,3z" fill="#81D4FA" stroke="#0277BD"/><path d="M256,192 l14,-2 l-2,5 l-12,1z" fill="#FFB74D" stroke="#E65100"/><circle cx="214" cy="190" r="3" fill="#ECEFF1" stroke="#90A4AE"/></g><circle cx="244" cy="188" r="26" fill="none" stroke="#D7262B" stroke-width="3" class="cf_bl"/>` + no(272, 154, 11)
     + lbl(80, 30, 'Al basurero', '#2E7D32') + lbl(244, 30, 'Nunca en la hilera', '#C62828')));
   // ---------- 6) NO SE FUMA ----------
@@ -3264,6 +3264,18 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + [0, 1, 2, 3].map(i => `<rect x="${166 + (i === 0 ? 8 : 0)}" y="${101 + i * 7}" width="${i === 0 ? 24 : 30}" height="6" rx="3" fill="${SK}" stroke="${OL}" stroke-width="1.5"/>`).join('')
     + `<circle cx="180" cy="115" r="24" fill="none" stroke="#D7262B" stroke-width="3" class="cf_bl"/>` + no(232, 74, 14) + MAQ
     + lbl(160, 194 - 4, 'Nunca metas la mano con la máquina andando', '#C62828')));
+  D('cf_me_avisa', () => svy(`<style>.cf_p1,.cf_p2,.cf_p3{animation:cf_pq 6s infinite}.cf_p2{animation-delay:2s}.cf_p3{animation-delay:4s}@keyframes cf_pq{0%,30%{opacity:1}36%,94%{opacity:.28}100%{opacity:1}}</style>`
+    + `<rect width="320" height="200" fill="#ECEFF1"/>` + MAQ
+    + `<g class="cf_p1"><rect x="6" y="30" width="98" height="150" rx="10" fill="#fff" stroke="#D7262B" stroke-width="2.5"/>${T(55, 50, '1. Lo veo', 11, '#D7262B')}`
+    + `<g class="cf_shk">${[30, 46, 62, 78].map(v => `<line x1="${v}" y1="62" x2="${v}" y2="132" stroke="#FFC20E" stroke-width="3"/>`).join('')}</g><path d="M38,98 l22,-14" stroke="#6D4C41" stroke-width="4" stroke-linecap="round"/>`
+    + `<circle cx="55" cy="96" r="22" fill="none" stroke="#D7262B" stroke-width="2.5" class="cf_bl"/>${T(55, 154, 'Algo trabado', 9, '#263238', 'normal')}${T(55, 168, 'NO lo toco', 10, '#D7262B')}</g>`
+    + `<g class="cf_p2"><rect x="111" y="30" width="98" height="150" rx="10" fill="#fff" stroke="#E65100" stroke-width="2.5"/>${T(160, 50, '2. Aviso', 11, '#E65100')}`
+    + W(140, 160, { pose: 'stop', s: .8 }) + `<path d="M168,70 h34 a6,6 0 0 1 6,6 v18 a6,6 0 0 1 -6,6 h-22 l-8,8 v-8 h-4 a6,6 0 0 1 -6,-6 v-18 a6,6 0 0 1 6,-6z" fill="#FFF3E0" stroke="#E65100"/>${T(186, 89, '¡Pare!', 10, '#E65100')}`
+    + `${T(160, 175, 'al operador', 9, '#263238', 'normal')}</g>`
+    + `<g class="cf_p3"><rect x="216" y="30" width="98" height="150" rx="10" fill="#fff" stroke="#2E7D32" stroke-width="2.5"/>${T(265, 50, '3. Detiene', 11, '#2E7D32')}`
+    + `<rect x="236" y="66" width="58" height="40" rx="5" fill="#1F2FD6"/><circle cx="252" cy="86" r="9" fill="#D7262B" stroke="#fff" stroke-width="2"/><rect x="266" y="78" width="20" height="16" rx="2" fill="#FFC20E" stroke="#263238"/><path d="M270,78 v-5 q6,-7 12,0 v5" stroke="#455A64" stroke-width="2.4" fill="none"/>`
+    + `${T(265, 128, 'Apaga, bloquea', 9, '#263238', 'normal')}${T(265, 142, 'y recién ahí', 9, '#263238', 'normal')}${T(265, 158, 'se arregla', 10, '#2E7D32')}</g>`
+    + lbl(160, 194 - 2, 'Partes en movimiento: se miran, no se tocan', '#C62828')));
   D('cf_me_subir', () => svy(ext({ gy: 150 }) + fondoHileras(150, .36) + cosechadora(50, 194, .82, { ruido: false })
     + `<path d="M58,190 v-60 M68,190 v-60 M58,176 h10 M58,162 h10 M58,148 h10" stroke="#455A64" stroke-width="2.4"/>` + rot(-14, 60, 170, P(60, 170, { pose: 'stop', face: 'worried' })) + no(30, 100, 12)
     + P(270, 194, { pose: 'stop', flip: true }) + ok(270, 104, 12) + lbl(160, 22, 'Solo sube el personal autorizado', '#C62828')));
@@ -3274,50 +3286,89 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + (o.dentro !== false ? `<rect x="54" y="150" width="58" height="6" fill="#8D6E63"/><rect x="58" y="156" width="4" height="30" fill="#6D4C41"/><rect x="104" y="156" width="4" height="30" fill="#6D4C41"/>`
       + `<circle cx="160" cy="166" r="18" fill="#263238"/><circle cx="160" cy="166" r="8" fill="#FFC20E"/>`
       + W(84, 186, { pose: 'bend', shirt: '#455A64', pants: '#455A64', hat: false, cofiaCampo: false, glasses: true })
-      + `<g class="cf_bl">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M128,150 l${f1(10 * Math.cos(i))},${f1(-10 * Math.sin(i) - 4)}" stroke="#FFEB3B" stroke-width="2"/>`).join('')}</g>` : '');
+      + `<g class="cf_bl">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M128,150 l${f1(10 * Math.cos(i))},${f1(-10 * Math.sin(i) - 4)}" stroke="#FFEB3B" stroke-width="2"/>`).join('')}</g>`  + TALLER
+      + `<rect x="176" y="120" width="18" height="30" fill="#546E7A"/><circle cx="185" cy="116" r="11" fill="#90A4AE" stroke="#263238" stroke-width="1.5"/><g class="cf_spin"><path d="M185,107 V125 M176,116 H194" stroke="#263238" stroke-width="2"/></g>`
+      + [0, .3, .6].map(d => `<g class="cf_fall" style="animation-delay:${d}s">${[0, 1, 2].map(i => `<circle cx="${178 - i * 5}" cy="${118 + i * 3}" r="1.6" fill="#FFC107"/>`).join('')}</g>`).join('')
+      + `<g class="cf_sw" style="transform-origin:150px 96px"><line x1="150" y1="96" x2="150" y2="132" stroke="#455A64" stroke-width="2" stroke-dasharray="3 2"/><path d="M144,132 h12 l-3,8 h-6z" fill="#FFC20E" stroke="#263238"/></g>` : '');
   const letreroAut = (x, y) => `<rect x="${x - 3}" y="${y - 96}" width="6" height="96" fill="#6D4C41"/><rect x="${x - 40}" y="${y - 140}" width="80" height="58" rx="5" fill="#fff" stroke="#D7262B" stroke-width="3"/><circle cx="${x}" cy="${y - 124}" r="10" fill="#D7262B"/><rect x="${x - 6}" y="${y - 126}" width="12" height="4" fill="#fff"/>${T(x, y - 101, 'SOLO PERSONAL', 8.5, '#D7262B')}${T(x, y - 90, 'AUTORIZADO', 9.5, '#D7262B')}`;
   D('cf_ta_taller', () => svy(ext({ gy: 150, sun: false }) + tallerEdif() + letreroAut(262, 194) + P(296, 196, { pose: 'stop', flip: true, s: .95 })));
   D('cf_ta_no', () => svy(ext({ gy: 150, sun: false }) + tallerEdif() + P(120, 196, { pose: 'walk' }) + no(120, 100, 13) + letreroAut(266, 194) + lbl(120, 24, 'No entres si no te corresponde', '#C62828')));
-  D('cf_ta_equipo', () => svy(ext({ gy: 150, sun: false }) + `<g>${(window.CF_TRACTOR || (() => ''))(40, 190)}</g>`
+  D('cf_ta_equipo', () => svy(ext({ gy: 150, sun: false }) + TALLER + `<g>${(window.CF_TRACTOR || (() => ''))(40, 190)}</g>`
     + `<rect x="200" y="96" width="70" height="44" rx="4" fill="#FFC20E" stroke="#263238" stroke-width="1.5"/>${T(235, 114, 'EN', 10, '#263238')}${T(235, 128, 'MANTENCIÓN', 9, '#263238')}<path d="M200,118 L150,128" stroke="#263238" stroke-width="1.5"/>`
     + `<rect x="139" y="122" width="16" height="14" rx="2" fill="#D7262B"/><path d="M142,122 v-6 q5,-7 10,0 v6" stroke="#455A64" stroke-width="2.5" fill="none"/>` + P(286, 196, { pose: 'stop', flip: true }) + lbl(150, 26, 'Con tarjeta y candado: no se usa', '#C62828')));
 
   // alias para la inducción (si_in_<ítem> y si_in_<ítem>_q)
   S.si_in_cofia = S.cf_hu_cofia; S.si_in_cofia_q = S.cf_hu_pelo;
   S.si_in_comedor = S.cf_hu_comedor; S.si_in_comedor_q = S.cf_hu_comer;
+  S.si_in_mecanizada = S.cf_me_maquina; S.si_in_mecanizada_q = S.cf_me_zona;
   S.si_in_taller = S.cf_ta_taller; S.si_in_taller_q = S.cf_ta_no;
   window.CF_COSECHADORA = cosechadora;
 
-  // ---------- SONIDO DE MOTOR al mostrar una lámina con tractor o máquina (respeta el botón de silencio) ----------
+  // ---------- MOVIMIENTO, HUMO Y SONIDO (tractores, cosechadora y taller) · respeta el botón de silencio ----------
   (function () {
+    // 1) motor en marcha: los tractores vibran un poco y tiran humito por el escape
+    const css = document.createElement('style');
+    css.textContent = 'g[data-motor="1"]{animation:cf_idle .11s linear infinite alternate}@keyframes cf_idle{from{transform:translateY(0)}to{transform:translateY(.7px)}}'
+      + '.cf_hm{animation:cf_hm 2.1s ease-out infinite;transform-box:fill-box;transform-origin:center}@keyframes cf_hm{0%{transform:translate(0,0) scale(.4);opacity:.85}100%{transform:translate(-14px,-34px) scale(1.9);opacity:0}}'
+      + '@media (prefers-reduced-motion: reduce){g[data-motor="1"],.cf_hm{animation:none}}';
+    (document.head || document.documentElement).appendChild(css);
+    const humo = root => {
+      (root || document).querySelectorAll('g[data-motor="1"]:not([data-humo])').forEach(g => {
+        try {
+          const bb = g.getBBox(); if (!bb || bb.width < 20) return;
+          const f = g.getAttribute('data-flip'), x = f ? bb.x + bb.width * .2 : bb.x + bb.width * .8, y = bb.y + bb.height * .32, k = Math.max(.6, Math.min(1.4, bb.width / 130));
+          g.setAttribute('data-humo', '1');
+          g.insertAdjacentHTML('beforeend', [0, .7, 1.4].map(d => `<circle class="cf_hm" style="animation-delay:${d}s" cx="${x.toFixed(1)}" cy="${(y - 4 * k).toFixed(1)}" r="${(4 * k).toFixed(1)}" fill="#9EA7AD"/>`).join(''));
+        } catch (e) {}
+      });
+    };
+    window.CF_HUMO = humo;
+    // 2) sonidos sintetizados (sin archivos)
     let ctx = null, last = '';
     const muted = () => { try { return typeof SFX !== 'undefined' ? SFX.muted : false; } catch (e) { return false; } };
-    const motor = (maq) => {
-      try {
-        if (muted()) return;
-        if (!ctx) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return; ctx = new A(); }
-        if (ctx.state === 'suspended') ctx.resume();
-        const t = ctx.currentTime, dur = maq ? 3 : 2.6, out = ctx.createGain();
-        out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(.22, t + .35); out.gain.setValueAtTime(.22, t + dur - .6); out.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-        const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = maq ? 520 : 420; lp.connect(out); out.connect(ctx.destination);
-        const o1 = ctx.createOscillator(); o1.type = 'sawtooth'; o1.frequency.setValueAtTime(38, t); o1.frequency.exponentialRampToValueAtTime(maq ? 62 : 70, t + .9); o1.frequency.exponentialRampToValueAtTime(maq ? 56 : 52, t + dur);
-        const o2 = ctx.createOscillator(); o2.type = 'square'; o2.frequency.setValueAtTime(19, t); o2.frequency.exponentialRampToValueAtTime(maq ? 31 : 35, t + .9);
-        const g2 = ctx.createGain(); g2.gain.value = .35; o2.connect(g2).connect(lp);
-        const am = ctx.createGain(); am.gain.value = .6; const lfo = ctx.createOscillator(); lfo.frequency.value = maq ? 11 : 8; const lg = ctx.createGain(); lg.gain.value = .4; lfo.connect(lg).connect(am.gain);
-        o1.connect(am).connect(lp);
-        const n = ctx.sampleRate * dur, b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
-        const ns = ctx.createBufferSource(); ns.buffer = b; const nf = ctx.createBiquadFilter(); nf.type = maq ? 'bandpass' : 'lowpass'; nf.frequency.value = maq ? 1400 : 300; const ng = ctx.createGain(); ng.gain.value = maq ? .18 : .3; ns.connect(nf).connect(ng).connect(out);
-        [o1, o2, lfo, ns].forEach(z => { z.start(t); z.stop(t + dur + .05); });
-      } catch (e) {}
+    const AC = () => { if (!ctx) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return null; ctx = new A(); } if (ctx.state === 'suspended') ctx.resume(); return ctx; };
+    const ruidoBlanco = (c, dur) => { const n = Math.floor(c.sampleRate * dur), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1; const s = c.createBufferSource(); s.buffer = b; return s; };
+    const salida = (c, t, dur, vol) => { const g = c.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .3); g.gain.setValueAtTime(vol, t + dur - .5); g.gain.exponentialRampToValueAtTime(0.0001, t + dur); g.connect(c.destination); return g; };
+    const diesel = (c, t, dur, out, f0 = 34, f1 = 58) => {   // motor diésel: golpeteo grave
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 380; lp.connect(out);
+      const o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + .8); o.frequency.exponentialRampToValueAtTime(f1 * .85, t + dur);
+      const am = c.createGain(); am.gain.value = .55; const lfo = c.createOscillator(); lfo.frequency.value = 9; const lg = c.createGain(); lg.gain.value = .45; lfo.connect(lg).connect(am.gain); o.connect(am).connect(lp);
+      const sq = c.createOscillator(); sq.type = 'square'; sq.frequency.setValueAtTime(f0 / 2, t); sq.frequency.exponentialRampToValueAtTime(f1 / 2, t + .8); const sg = c.createGain(); sg.gain.value = .3; sq.connect(sg).connect(lp);
+      const n = ruidoBlanco(c, dur), nf = c.createBiquadFilter(); nf.type = 'lowpass'; nf.frequency.value = 260; const ng = c.createGain(); ng.gain.value = .35; n.connect(nf).connect(ng).connect(out);
+      [o, lfo, sq, n].forEach(z => { z.start(t); z.stop(t + dur + .05); });
     };
+    const sonidos = {
+      tractor: () => { const c = AC(); if (!c) return; const t = c.currentTime, dur = 3; diesel(c, t, dur, salida(c, t, dur, .24)); },
+      maquina: () => {   // cosechadora: motor + traqueteo de los sacudidores + zumbido de correas
+        const c = AC(); if (!c) return; const t = c.currentTime, dur = 3.4, out = salida(c, t, dur, .22); diesel(c, t, dur, out, 40, 64);
+        const n = ruidoBlanco(c, dur), bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 1.2;
+        const g = c.createGain(); g.gain.value = 0; const lfo = c.createOscillator(); lfo.type = 'square'; lfo.frequency.value = 13; const lg = c.createGain(); lg.gain.value = .22; lfo.connect(lg).connect(g.gain);
+        n.connect(bp).connect(g).connect(out);
+        const hum = c.createOscillator(); hum.type = 'triangle'; hum.frequency.value = 220; const hg = c.createGain(); hg.gain.value = .05; hum.connect(hg).connect(out);
+        [n, lfo, hum].forEach(z => { z.start(t); z.stop(t + dur + .05); });
+      },
+      taller: () => {   // taller: esmeril, golpes de martillo y pistola de impacto
+        const c = AC(); if (!c) return; const t = c.currentTime, dur = 3.4, out = salida(c, t, dur, .2);
+        const es = c.createOscillator(); es.type = 'sawtooth'; es.frequency.setValueAtTime(900, t); es.frequency.linearRampToValueAtTime(2600, t + .6); const eg = c.createGain(); eg.gain.setValueAtTime(.0001, t); eg.gain.exponentialRampToValueAtTime(.12, t + .3); eg.gain.setValueAtTime(.12, t + 1.5); eg.gain.exponentialRampToValueAtTime(.0001, t + 1.8);
+        const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 700; es.connect(eg).connect(hp).connect(out);
+        const ch = ruidoBlanco(c, 1.8), cf = c.createBiquadFilter(); cf.type = 'highpass'; cf.frequency.value = 3500; const cg = c.createGain(); cg.gain.value = .18; ch.connect(cf).connect(cg).connect(out); ch.start(t); ch.stop(t + 1.8);
+        [2.0, 2.35, 2.7].forEach(h => { const o = c.createOscillator(); o.type = 'square'; o.frequency.setValueAtTime(1400, t + h); o.frequency.exponentialRampToValueAtTime(500, t + h + .08); const g = c.createGain(); g.gain.setValueAtTime(.3, t + h); g.gain.exponentialRampToValueAtTime(.0001, t + h + .15); o.connect(g).connect(out); o.start(t + h); o.stop(t + h + .2); });
+        for (let i = 0; i < 6; i++) { const h = 1.85 + i * .05; const n = ruidoBlanco(c, .04), g = c.createGain(); g.gain.value = .25; n.connect(g).connect(out); n.start(t + h); }
+        es.start(t); es.stop(t + 1.9);
+      }
+    };
+    const tocar = k => { if (muted() || !sonidos[k]) return; try { sonidos[k](); } catch (e) {} };
     const revisar = () => {
+      humo(document);
       const c = document.getElementById('lCard'); if (!c) return;
       const scr = document.getElementById('s-learn'); if (scr && !scr.classList.contains('on')) { last = ''; return; }
       const h = c.querySelector('h3'), key = (h ? h.textContent : '') + '|' + c.innerHTML.length;
       if (key === last) return; last = key;
-      const m = c.querySelector('[data-motor]'); if (m) motor(m.getAttribute('data-motor') === 'maquina');
+      const m = c.querySelector('[data-motor]'); if (!m) return;
+      const v = m.getAttribute('data-motor'); tocar(v === 'maquina' ? 'maquina' : v === 'taller' ? 'taller' : 'tractor');
     };
-    const ini = () => { const c = document.getElementById('lCard'); if (!c) return setTimeout(ini, 800); new MutationObserver(() => setTimeout(revisar, 60)).observe(c, { childList: true }); };
+    let pend = 0;
+    const ini = () => { new MutationObserver(() => { if (pend) return; pend = setTimeout(() => { pend = 0; revisar(); }, 80); }).observe(document.body, { childList: true, subtree: true }); revisar(); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ini); else ini();
   })();
 
@@ -3609,6 +3660,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
       { s: 'cf_me_zona', t: 'Zona de peligro alrededor de la máquina', x: '<ul><li>Nadie camina <b>delante</b> de la máquina en la hilera por donde avanza, ni <b>detrás</b> cuando retrocede.</li><li>En la <b>cabecera</b> la máquina <b>gira</b>: no te quedes ahí.</li><li>Las matas son altas: el operador <b>no te ve</b> si estás cerca.</li></ul>', k: 'Lejos de su camino.' },
       { s: 'cf_me_ruido', t: 'El ruido: comunícate con la mirada', x: '<ul><li>Con el motor encendido, <b>el operador no te escucha</b>.</li><li>Antes de acercarte, <b>busca su mirada</b> y espera su <b>seña</b> de que detuvo la máquina.</li><li>Si trabajas junto a la máquina, usa el <b>protector auditivo</b> que te entreguen.</li></ul>', k: 'Primero la mirada y la seña.' },
       { s: 'cf_me_manos', t: 'Nunca metas las manos con la máquina andando', x: '<ul><li>Si se traba, se cae una bandeja o ves un problema, <b>avisa al operador</b>.</li><li>Solo el operador o mantención autorizada destraba o limpia, con la máquina <b>detenida, apagada y bloqueada</b>.</li><li>Sin joyas, ropa suelta ni pelo fuera de la cofia cerca de la máquina.</li></ul>', k: 'Detener, apagar y bloquear antes de tocar.' },
+      { s: 'cf_me_avisa', t: 'Ves algo raro: no lo toques, infórmalo', x: 'Las varillas, correas, ventiladores y ruedas <b>se mueven todo el tiempo</b>. Nadie interviene una parte en movimiento.<ul><li><b>1. Lo veo:</b> una rama trabada, una bandeja caída, un ruido raro, una fuga o una pieza suelta.</li><li><b>2. Aviso</b> al operador con la mirada y la seña de <b>¡pare!</b>, y a mi jefatura.</li><li><b>3. El operador detiene, apaga y bloquea</b>. Recién ahí lo arregla quien está autorizado.</li></ul>Informar <b>todo</b>, aunque parezca chico, evita accidentes.', k: 'Se mira, no se toca. Se informa todo.' },
       { s: 'cf_me_subir', t: 'Solo sube el personal autorizado', x: '<ul><li>A la máquina <b>solo sube quien está autorizado</b>, en su puesto y con la máquina detenida.</li><li>Nunca te subas a las escaleras o costados <b>para que te lleve</b>.</li><li>Para bajar y subir: <b>tres puntos de apoyo</b>, nunca saltando.</li></ul>', k: 'La máquina no es transporte.' }
     ],
     quiz: [
@@ -3632,6 +3684,10 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
         { q: 'Se trabó una rama en las varillas de la máquina. ¿Qué haces?', o: ['Aviso al operador para que detenga, apague y bloquee', 'La saco con la mano rápido', 'La empujo con un palo con la máquina andando', 'No digo nada'], w: 'Destraba solo personal autorizado, con la máquina detenida y bloqueada.' },
         { q: '¿Qué se hace antes de limpiar o destrabar la máquina?', o: ['Detenerla, apagarla y bloquearla', 'Bajar la velocidad', 'Avisar por radio y meter la mano', 'Nada, se hace rápido'], w: 'Detener, apagar y bloquear: así no arranca mientras alguien la toca.' },
         { q: 'Meter la mano en la máquina andando es aceptable si es solo un segundo.', vf: false, w: 'Falso. En un segundo la máquina atrapa la mano.' }] },
+      { s: 'cf_me_avisa', v: [
+        { q: 'Ves que a la cosechadora se le soltó una pieza y sigue andando. ¿Qué haces?', o: ['Le hago la seña de pare al operador y aviso a mi jefatura', 'La afirmo con la mano', 'Sigo trabajando, no es mi tema', 'Espero al final del día para contarlo'], w: 'Se informa todo de inmediato; nadie toca una parte en movimiento.' },
+        { q: '¿Cuándo se puede arreglar una parte de la máquina?', o: ['Cuando está detenida, apagada y bloqueada, y lo hace quien está autorizado', 'Cuando anda despacio', 'Cuando el operador se distrae', 'En cualquier momento si eres rápido'], w: 'Detener, apagar y bloquear antes de intervenir.' },
+        { q: 'Un ruido raro en la máquina hay que informarlo aunque parezca algo chico.', vf: true, w: 'Verdadero. Informar todo evita accidentes y daños.' }] },
       { s: 'cf_me_subir', v: [
         { q: 'Terminaste tu hilera y la cosechadora va hacia el mismo lado. ¿Te subes?', o: ['No, la máquina no es transporte; voy caminando', 'Sí, en la escalera', 'Sí, en el costado', 'Sí, si el operador no ve'], w: 'Solo sube el personal autorizado, en su puesto.' },
         { q: '¿Quién puede subir a la cosechadora?', o: ['Solo el personal autorizado, en su puesto', 'Cualquiera que esté cansado', 'Los que cosechan más rápido', 'Todos al final del día'], w: 'Subir sin autorización es riesgo de caída y atropello.' },
@@ -3653,6 +3709,12 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
         { q: '¿Dónde comes durante la jornada en el campo?', o: ['En el comedor móvil', 'En la hilera', 'Arriba del tractor', 'Donde me pille la hora'], w: 'El comedor tiene sombra, agua potable y basurero.' },
         { q: '¿Dónde va la botella vacía de tu bebida?', o: ['Al basurero del comedor', 'Bajo la mata', 'Al canal', 'Enterrada'], w: 'La basura en el huerto contamina y atrae ratones.' },
         { q: 'El comedor móvil tiene agua potable y toalla de papel para lavarse y secarse.', vf: true, w: 'Verdadero. Y un baño químico cerca.' }] },
+    { despues: 'comedor', s: 'mecanizada', t: 'Cosecha mecanizada, tractores y ruido',
+      x: 'Parte de la frambuesa se cosecha con una <b>máquina cosechadora</b>, parecida a la de arándanos: es alta, <b>pasa por encima de la hilera</b>, sacude las cañas y la fruta cae a una correa que la sube a las bandejas. También circulan <b>tractores</b>.<ul><li>Tractores y máquinas <b>meten ruido</b>: el operador no te escucha. Busca su <b>mirada</b> y espera su <b>seña</b>.</li><li>Nunca te pongas <b>delante</b> de la máquina en la hilera por donde avanza, ni en la <b>cabecera</b> donde gira. Las matas altas te tapan.</li><li><b>Nunca intervengas partes en movimiento</b>: si ves algo raro, <b>informa</b> al operador y a tu jefatura; se detiene, apaga y bloquea antes de arreglar.</li><li>A la máquina y al tractor <b>solo sube el personal autorizado</b>; no son transporte.</li></ul>', k: 'Lejos de su camino y con contacto visual.',
+      q: [
+        { q: 'La cosechadora viene avanzando por tu hilera. ¿Qué haces?', o: ['Salgo de su camino por el pasillo y me alejo', 'Sigo cosechando delante de ella', 'Me agacho para que pase', 'Me quedo quieto en la hilera'], w: 'Nadie se queda delante de una máquina que avanza: el operador no te ve.' },
+        { q: 'Necesitas hablar con el operador de un tractor o de la cosechadora. ¿Qué haces?', o: ['Busco su mirada y espero su seña de que detuvo la máquina', 'Le grito desde atrás', 'Me subo con la máquina andando', 'Le tiro una bandeja'], w: 'Con el ruido no te escucha: primero la mirada y la seña.' },
+        { q: 'Meter la mano en la cosechadora andando es aceptable si es solo un segundo.', vf: false, w: 'Falso. En un segundo la máquina atrapa la mano. Se detiene, apaga y bloquea antes.' }] },
     { despues: 'pts', s: 'taller', t: 'Taller mecánico: solo personal autorizado',
       x: 'En el fundo hay un <b>taller mecánico</b> donde se <b>reparan y adaptan</b> tractores, la cosechadora y otros equipos.<ul><li><b>Solo entra el personal autorizado</b>: hay soldadura, esmeril, piezas pesadas, equipos levantados y combustibles.</li><li>Si necesitas algo del taller, <b>pídelo a tu jefatura</b>; no entres ni uses sus herramientas.</li><li>Un equipo con <b>tarjeta y candado</b> está en mantención: <b>no se usa</b> ni se enciende.</li><li>No mires la luz de la <b>soldadura</b>: daña los ojos.</li></ul>', k: 'Si no estás autorizado, no entras.',
       q: [
