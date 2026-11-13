@@ -335,7 +335,7 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
   // ---------- contenidos ----------
   // Inducción escrita oficial COMFRUT Nursery S.A. (25-11-2025, revisión 01): un ítem por cada materia instruida, mismo orden.
   // {E} = nombre corto de la empresa de la persona; {MUT}, {LAMUT} y {TEL} = su mutualidad (cf_base.js).
-  const NOM = { comfrut: 'Comfrut Nursery', car: 'CAR', snova: 'Snova SpA', agricap: 'Agricap', integra: 'Integra Prevención' };
+  const NOM = { comfrut: 'Comfrut Nursery', car: 'CAR', snova: 'Snova SpA', agricap: 'Agricap', integra: 'Integra Prevención', independiente: 'Comfrut Nursery' };
   const P = (v, e) => {
     if (typeof v === 'string') { const r = v.replace(/\{E\}/g, NOM[e] || 'tu empresa'); return typeof window.siTxt === 'function' ? window.siTxt(r, e) : r; }
     if (Array.isArray(v)) return v.map(z => P(z, e));
@@ -355,6 +355,7 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
     // 2
     { s: 'empresa', t: 'La empresa y tu seguro: Ley 16.744',
       x: { comfrut: '<b>Comfrut Nursery</b> produce frambuesas en el <b>Fundo Santa Sara</b>. Todos sus trabajadores, <b>también los de temporada</b>, están protegidos por la <b>Ley 16.744</b> ante <b>accidentes del trabajo, de trayecto y enfermedades profesionales</b>: atención médica, rehabilitación y prestaciones económicas, sin costo. Comfrut Nursery está adherida a la <b>ACHS</b>.',
+        independiente: 'En el <b>Fundo Santa Sara</b>, de <b>Comfrut Nursery</b>, se producen frambuesas. Tú prestas servicios como <b>trabajador independiente</b> (boleta de honorarios o factura). Tu seguro de la <b>Ley 16.744</b> ante <b>accidentes del trabajo, de trayecto y enfermedades profesionales</b> depende de <b>tus propias cotizaciones</b>: si estás al día, te atiende <b>el ISL o la mutualidad a la que estés adherido</b>, con atención médica, rehabilitación y prestaciones económicas. Revisa que tus cotizaciones estén al día.',
         d: 'En el <b>Fundo Santa Sara</b>, de <b>Comfrut Nursery</b>, se producen frambuesas. Tú trabajas ahí para <b>{E}</b>, empresa contratista. Todos los trabajadores, <b>también los de temporada</b>, están protegidos por la <b>Ley 16.744</b> ante <b>accidentes del trabajo, de trayecto y enfermedades profesionales</b>: atención médica, rehabilitación y prestaciones económicas, sin costo. Tu atención la da <b>{LAMUT}</b>, a la que está adherida {E}.' },
       q: [
         { q: '¿Qué cubre el seguro de la Ley 16.744?', o: ['Accidentes del trabajo, de trayecto y enfermedades profesionales', 'Solo accidentes graves ocurridos dentro del fundo', 'Solo enfermedades comunes, como un resfrío', 'Solo al personal de planta, no al de temporada'], w: 'La Ley 16.744 cubre a todos los trabajadores frente a accidentes del trabajo, de trayecto y enfermedades profesionales.' },
@@ -364,6 +365,7 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
     { s: 'aviso', k: 'Todo accidente se informa de inmediato, aunque parezca leve.', t: 'Si tienes un accidente del trabajo o de trayecto',
       x: { comfrut: '<ul><li>Avisa <b>de inmediato</b> a tu jefatura, aunque la lesión parezca leve.</li><li>La jefatura coordina tu <b>traslado a la ACHS</b>; ahí dices que fue un accidente del trabajo.</li><li><b>Trayecto</b> (camino directo entre tu casa y el trabajo): también avisa de inmediato y guarda pruebas, como un parte o testigos.</li><li>Emergencias ACHS: <b>1404</b>, las 24 horas.</li></ul>',
         car: '<ul><li>Avisa <b>de inmediato</b> a tu jefatura, aunque la lesión parezca leve.</li><li>La jefatura coordina tu <b>traslado al IST</b>, la mutualidad de CAR; ahí dices que fue un accidente del trabajo.</li><li><b>Trayecto</b> (camino directo entre tu casa y el trabajo): también avisa de inmediato y guarda pruebas, como un parte o testigos.</li><li>Urgencias IST: <b>800 204 000</b>.</li></ul>',
+        independiente: '<ul><li>Avisa <b>de inmediato</b> a la jefatura del fundo, aunque la lesión parezca leve.</li><li>Acude al <b>ISL o a la mutualidad</b> donde cotizas; ahí dices que fue un <b>accidente del trabajo</b>.</li><li><b>Trayecto</b> (camino directo entre tu casa y el trabajo): también avisa de inmediato y guarda pruebas, como un parte o testigos.</li><li>Ten a mano el teléfono de emergencias de tu organismo.</li></ul>',
         d: '<ul><li>Avisa <b>de inmediato</b> a tu jefatura, aunque la lesión parezca leve.</li><li>La jefatura coordina tu <b>traslado a la mutualidad</b> a la que está adherida {E}; ahí dices que fue un accidente del trabajo.</li><li><b>Trayecto</b> (camino directo entre tu casa y el trabajo): también avisa de inmediato y guarda pruebas, como un parte o testigos.</li><li>Pregunta a tu jefatura el teléfono de emergencias de tu mutualidad.</li></ul>' },
       q: [
         { q: 'Te haces un corte pequeño con la tijera de podar. ¿Qué haces?', o: ['Aviso de inmediato a mi jefatura', 'Me curo solo y aviso al final del turno', 'No aviso si puedo seguir trabajando', 'Aviso mañana si todavía me duele'], w: 'Todo accidente se informa de inmediato, aunque parezca leve, para recibir atención en {LAMUT} y quedar cubierto.' },
@@ -498,7 +500,7 @@ window.SI_IND_PUESTO = {}; window.SI_IND_TRANSV = {};
     + '<li><b>Agroquímicos:</b> intoxicación por contacto, inhalación o ingestión. <span class="ctrl">✅ Control:</span> respetar el período de reingreso, no comer en la hilera, lavarse las manos, EPP según la HDS.</li>'
     + '<li><b>Para todos:</b> caídas al mismo nivel, joyas y ropa suelta, pelo fuera de la cofia, riesgo eléctrico, incendio, accidente de trayecto y acoso. <span class="ctrl">✅ Control:</span> pasillos libres, sin anillos ni pulseras, no intervenir instalaciones eléctricas, conocer la zona de seguridad, respetar las normas de tránsito y el buen trato.</li>';
 
-  ['comfrut', 'car', 'snova', 'agricap', 'integra'].forEach(e => {
+  ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'].forEach(e => {
     const pick = v => (v && typeof v === 'object' && !Array.isArray(v) && (v.d !== undefined || v.comfrut !== undefined)) ? (v[e] !== undefined ? v[e] : (esMandante(e) && v.comfrut !== undefined ? v.comfrut : v.d)) : v;
     const learn = ITEMS.map(it => {
       const l = { s: 'si_in_' + it.s, t: P(pick(it.t), e), x: P(pick(it.x), e) };
@@ -636,7 +638,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + `<line x1="226" y1="68" x2="294" y2="116" stroke="#D7262B" stroke-width="4"/>` + txt(260, 140, 'Sin autorización', 11, '#C62828') + txt(260, 154, 'no se opera', 11, '#C62828'));
 
   SI_CONT.temas.push({
-    id: 'autocuidado', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Actos inseguros, condiciones inseguras y autocuidado', thumb: 'si_t1_ppa', mins: 15,
+    id: 'autocuidado', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Actos inseguros, condiciones inseguras y autocuidado', thumb: 'si_t1_ppa', mins: 15,
     learn: [
       { s: 'si_t1_acto', t: '¿Qué es un acto inseguro?', x: 'Es una acción u omisión de la <b>persona</b> que se aparta de la forma segura de trabajar. Ejemplos:<ul><li>Doblar la espalda horas para cosechar en vez de agacharte con las rodillas.</li><li>No usar el EPP o usarlo mal.</li><li>Trabajar apurado o mirando el celular.</li><li>Operar un equipo sin capacitación ni autorización.</li></ul>', k: 'Nunca intervengas el tractor ni sus implementos en movimiento: detén el motor primero.' },
       { s: 'si_t1_cond', t: '¿Qué es una condición insegura?', x: 'Es una situación del <b>lugar, el equipo o el material</b> que puede causar un accidente. Ejemplos:<ul><li>Alambre de la espaldera cortado y colgando.</li><li>Cañas cortadas y hoyos en el pasillo entre hileras.</li><li>Extintor tapado o luz quemada.</li></ul>Toda condición insegura se corrige o se reporta.' },
@@ -755,7 +757,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + pl(210, 60, 'NUEVO', '#2E7D32', 12) + W(90, 165, { pose: 'point' }) + bubble(10, 16, '¿Qué riesgos tiene?', 140));
 
   SI_CONT.temas.push({
-    id: 'peligros', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Peligros y riesgos: identificación y control', thumb: 'si_t1_p_jer', mins: 15,
+    id: 'peligros', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Peligros y riesgos: identificación y control', thumb: 'si_t1_p_jer', mins: 15,
     learn: [
       { s: 'si_t1_p_def', t: 'Peligro y riesgo no son lo mismo', x: '<b>Peligro</b> es lo que puede causar daño: el alambre tenso de la espaldera. <b>Riesgo</b> es la posibilidad de que ese peligro te dañe y qué tan grave sería: un latigazo en el ojo. El peligro puede estar siempre; el riesgo se baja con controles.' },
       { s: 'si_t1_p_lista', t: 'Peligros de tu trabajo', x: '<ul><li>Postura al cosechar: lumbago.</li><li>Sol y calor: quemaduras y golpe de calor.</li><li>Agroquímicos: intoxicación.</li><li>Tractores: volcamiento y atropello.</li><li>Tijeras y alambres: cortes. Abejas y avispas: picaduras.</li></ul>' },
@@ -850,7 +852,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + W(110, 165, { pose: 'point' }) + badge(292, 186, true, 12));
 
   SI_CONT.temas.push({
-    id: 'epp', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Uso y cuidado del EPP', thumb: 'si_t1_e_kit', mins: 15,
+    id: 'epp', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Uso y cuidado del EPP', thumb: 'si_t1_e_kit', mins: 15,
     learn: [
       { s: 'si_t1_e_kit', t: 'El EPP de tu trabajo', x: 'En el campo: <b>legionario con cubrenuca, ropa de manga larga, lentes de seguridad, zapatos de seguridad y bloqueador solar</b>, más guantes según la labor. El EPP es obligatorio todo el tiempo que estás expuesto al peligro.' },
       { s: 'si_t1_e_tarea', t: 'EPP según la tarea', x: 'En la aplicación de agroquímicos: <b>traje impermeable, respirador con filtro, antiparras, guantes de nitrilo y botas de goma</b>. Sin el equipo completo, no se aplica. La tarea define el EPP: si tienes dudas, pregunta a tu jefatura o revisa la HDS del producto.' },
@@ -947,7 +949,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     : W(130, 165, {}) + `<line x1="142" y1="128" x2="168" y2="172" stroke="#8D6E63" stroke-width="4"/><path d="M160,170 l22,-6 l6,14 l-24,4z" fill="#FBC02D" stroke="#F57F17"/>` + `<g class="an-fade">${[0, 1, 2].map(i => `<circle cx="${200 + i * 12}" cy="${176 - i * 2}" r="2" fill="#9E9E9E"/>`).join('')}</g>`) + pk(tina(172, 140, false), '', '', desk(200, 165)) + badge(292, 26, true, 13));
 
   SI_CONT.temas.push({
-    id: 'orden', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Orden y aseo', thumb: 'si_t1_o_vias', mins: 10,
+    id: 'orden', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Orden y aseo', thumb: 'si_t1_o_vias', mins: 10,
     learn: [
       { s: 'si_t1_o_vias', t: 'Pasillos y vías siempre despejados', x: 'Tropezar o resbalar es de los accidentes más comunes, y casi siempre se evita con orden. Mantén <b>libres los pasillos, las rutas de tractores y los accesos</b>. No dejes cañas, amarras ni bandejas tiradas en la hilera o el camino. El DS 594 exige mantener los lugares de trabajo limpios y ordenados.' },
       { s: 'si_t1_o_salidas', t: 'Salidas, extintores y tableros libres', x: 'Nunca tapes con sacos, cajas o envases:<ul><li>las salidas de emergencia y vías de evacuación,</li><li>los extintores,</li><li>los tableros eléctricos,</li><li>las duchas de emergencia y lavaojos, donde existan.</li></ul>En una emergencia, cada segundo cuenta.' },
@@ -1029,7 +1031,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + `<rect x="270" y="74" width="46" height="4" fill="#78909C"/><rect x="312" y="74" width="4" height="76" fill="#78909C"/>` + piso(214, 165) + W(234, 141, { pose: 'carry', s: .95 }) + box(242, 104, 30, 22) + badge(186, 30, true, 14));
 
   SI_CONT.temas.push({
-    id: 'cargas', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Manejo manual de cargas', thumb: 'si_t1_c_tec', mins: 15,
+    id: 'cargas', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Manejo manual de cargas', thumb: 'si_t1_c_tec', mins: 15,
     learn: [
       { s: 'si_t1_c_ley', t: 'Ley 20.949: pesos máximos', x: 'La Ley 20.949 fija cuánto puede levantar una persona sin ayuda mecánica:<ul><li><b>Hombres:</b> hasta 25 kg.</li><li><b>Mujeres y menores de 18 años:</b> hasta 20 kg.</li><li><b>Embarazadas:</b> no pueden levantar, cargar ni arrastrar cargas.</li></ul>Son máximos, no metas: si la carga es incómoda o se levanta muchas veces, debe ser menor.' },
       { s: 'si_t1_c_eval', t: 'Antes de levantar, evalúa', x: '<ul><li><b>¿Cuánto pesa?</b> Un capacho lleno o un saco de fertilizante pesan más de lo que parece.</li><li>¿Tiene buen agarre?</li><li>¿El camino está libre y el piso seco?</li><li>¿Necesito una ayuda mecánica o un compañero?</li></ul>Si dudas, no la levantes solo.' },
@@ -1108,7 +1110,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + edificio(20, 64, 90, 46, '#B3E5FC') + pl(65, 70, 'SEREMI de Salud', '#1565C0', 10) + edificio(210, 64, 90, 46, '#C5E1A5') + pl(255, 70, 'Inspección del Trabajo', '#2E7D32', 10));
 
   SI_CONT.temas.push({
-    id: 'accidente', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Accidentes del trabajo y de trayecto: qué hacer', thumb: 'si_t1_a_avisa', mins: 15,
+    id: 'accidente', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Accidentes del trabajo y de trayecto: qué hacer', thumb: 'si_t1_a_avisa', mins: 15,
     learn: [
       { s: 'si_t1_a_evit', t: 'Los accidentes se pueden evitar', x: 'Un accidente no es mala suerte: casi siempre hay una causa que se pudo controlar. Un paso que se saltó, un EPP que no se usó, una tijera sin funda o un equipo operado sin autorización. Si la causa se puede identificar, también se puede prevenir. Aquí verás qué hacer si, a pesar de todo, ocurre.' },
       { s: 'si_t1_a_ley', t: 'Ley 16.744: estás protegido', x: 'La Ley 16.744 es el seguro obligatorio contra accidentes del trabajo y enfermedades profesionales. Cubre:<ul><li><b>Accidente del trabajo:</b> lesión a causa o con ocasión del trabajo.</li><li><b>Accidente de trayecto:</b> en el camino directo entre tu casa y el trabajo.</li><li><b>Enfermedad profesional:</b> causada por el trabajo, como la sordera por ruido.</li></ul>La empresa está adherida a <b>{LAMUT}</b> y la atención es gratuita para ti.' },
@@ -1202,7 +1204,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + W(120, 170, { pose: 'walk' }) + W(70, 170, { pose: 'walk' }) + flecha(150, 186, 230, 186, '#2E7D32') + bubble(20, 18, '¡Fuego!', 80) + humo(30, 100));
 
   SI_CONT.temas.push({
-    id: 'incendios', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Prevención de incendios y uso del extintor', thumb: 'si_t1_f_uso2', mins: 15,
+    id: 'incendios', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Prevención de incendios y uso del extintor', thumb: 'si_t1_f_uso2', mins: 15,
     learn: [
       { s: 'si_t1_f_tri', t: 'Cómo se produce el fuego', x: 'Para que haya fuego se necesitan tres cosas a la vez: <b>combustible</b> (lo que se quema), <b>calor</b> (una chispa o una llama) y <b>oxígeno</b> (el aire). Si falta una, el fuego no empieza o se apaga. Prevenir incendios es mantener separados el calor y el combustible.' },
       { s: 'si_t1_f_clases', t: 'Clases de fuego', x: '<ul><li><b>Clase A:</b> sólidos como cartón, papel, madera, plásticos o pasto seco.</li><li><b>Clase B:</b> líquidos y gases inflamables como combustible, aceite o gas.</li><li><b>Clase C:</b> equipos eléctricos energizados: tableros, motores, cargadores.</li><li><b>Clase D:</b> metales combustibles. <b>Clase K:</b> aceites de cocina.</li></ul>La clase de fuego define qué extintor usar.' },
@@ -1289,7 +1291,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + `<rect x="200" y="46" width="30" height="50" rx="5" fill="#263238"/><rect x="203" y="52" width="24" height="36" fill="#90CAF9"/><circle cx="215" cy="71" r="26" fill="none" stroke="#D7262B" stroke-width="5"/><line x1="197" y1="53" x2="233" y2="89" stroke="#D7262B" stroke-width="5"/>` + pl(270, 110, 'Cinturón', '#2E7D32', 11));
 
   SI_CONT.temas.push({
-    id: 'trayecto', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Tránsito seguro: trayecto, patios y vehículos', thumb: 'si_t1_v_retro', mins: 15,
+    id: 'trayecto', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Tránsito seguro: trayecto, patios y vehículos', thumb: 'si_t1_v_retro', mins: 15,
     learn: [
       { s: 'si_t1_v_sep', t: 'Peatones y vehículos, separados', x: 'En los patios y caminos internos del fundo circulan tractores, camionetas, camiones y buses. Camina solo por las <b>sendas peatonales</b> y cruza por los pasos señalizados. Nunca acortes camino por las vías de vehículos.' },
       { s: 'si_t1_v_vel', t: 'Velocidad máxima en patios: 10 km/h', x: 'En los patios, la velocidad máxima de cualquier vehículo es <b>10 km/h</b>, casi a paso de persona. A esa velocidad se puede frenar a tiempo si alguien aparece. Quien conduce respeta la señalización, enciende luces y balizas, y <b>cede el paso a los peatones</b> en los cruces.' },
@@ -1530,7 +1532,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   const COSAS = 'bandejas, carros o rollos de alambre';
 
   SI_CONT.temas.push({
-    id: 'emergencias', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Emergencias, sismos y evacuación', thumb: 'si_t2_evac', mins: 15,
+    id: 'emergencias', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Emergencias, sismos y evacuación', thumb: 'si_t2_evac', mins: 15,
     learn: [
       { s: 'si_t2_plan', t: 'El plan de emergencia', x: 'Cada empresa del grupo tiene un <b>plan de emergencia</b>: dice qué hacer ante un sismo, un incendio o un derrame de agroquímicos o un incendio forestal, quién da la alarma y quién guía la evacuación. Tú debes saber:<ul><li>Cómo suena la alarma.</li><li>Cuál es tu vía de evacuación.</li><li>Dónde está tu zona de seguridad y punto de encuentro.</li><li>Quiénes son los líderes de emergencia de tu sector.</li></ul>' },
       { s: 'si_t2_evac', t: 'Vías de evacuación y zonas de seguridad', x: 'Las vías de evacuación están marcadas con <b>señales verdes</b> con una flecha y una persona corriendo. Te llevan a la salida y a la <b>zona de seguridad</b> (en el campo, tu jefatura indica la zona de seguridad de cada sector).<ul><li>Mantenlas siempre despejadas: nada de ' + COSAS + ' en el camino.</li><li>Nunca cierres con llave ni bloquees una salida de emergencia.</li></ul>' },
@@ -1578,7 +1580,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   });
 
   SI_CONT.temas.push({
-    id: 'senaletica', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Señalización de seguridad', thumb: 'si_t2_senales', mins: 12,
+    id: 'senaletica', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Señalización de seguridad', thumb: 'si_t2_senales', mins: 12,
     learn: [
       { s: 'si_t2_senales', t: 'Las señales te hablan', x: 'La señalización de seguridad te avisa en un segundo una <b>prohibición</b>, una <b>obligación</b>, un <b>peligro</b> o dónde está la <b>salida y la ayuda</b>. Funciona con colores y formas que son iguales en todas partes. Si los conoces, entiendes una señal aunque no tenga texto o esté en otro idioma.' },
       { s: 'si_t2_proh', t: 'Prohibición: círculo con borde rojo y barra', x: 'Círculo blanco con borde rojo y una barra cruzada. Indica algo que <b>no se puede hacer</b>. Ejemplos en ' + LUGAR + ': prohibido fumar, prohibido el ingreso a un sector recién aplicado, prohibido el paso a personas no autorizadas.' },
@@ -1721,7 +1723,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
 
   // ================= TEMAS · UV, CALOR, ENFERMEDADES =================
   SI_CONT.temas.push({
-    id: 'uv', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Radiación UV de origen solar', thumb: 'si_t2_sol', mins: 12,
+    id: 'uv', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Radiación UV de origen solar', thumb: 'si_t2_sol', mins: 12,
     learn: [
       { s: 'si_t2_sol', t: 'Un riesgo que no se siente', x: 'El sol emite <b>radiación ultravioleta (UV)</b>. No se ve ni se siente, y daña aunque el día esté nublado o fresco. Con los años produce <b>quemaduras, manchas, envejecimiento de la piel, daño a los ojos (cataratas) y cáncer de piel</b>. La Ley 20.096 y el protocolo MINSAL de radiación UV obligan a proteger a quienes trabajan al sol.' },
       { s: 'si_t2_quien', t: '¿Quién está expuesto en ' + LUGAR + '?', x: 'Todos: cosecha, poda, amarre, estructura, aplicación, riego y tractoristas trabajan al sol casi toda la jornada. <b>Basta estar una parte del día al sol</b> para necesitar protección.' },
@@ -1769,7 +1771,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   });
 
   SI_CONT.temas.push({
-    id: 'calor', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Altas temperaturas y golpe de calor', thumb: 'si_t2_termo', mins: 12,
+    id: 'calor', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Altas temperaturas y golpe de calor', thumb: 'si_t2_termo', mins: 12,
     learn: [
       { s: 'si_t2_termo', t: '¿Por qué el calor es peligroso?', x: 'El cuerpo se enfría sudando. Si hace mucho calor, el trabajo es pesado o no tomas agua, pierdes agua y sales, y tu temperatura sube. Eso produce <b>calambres, deshidratación, agotamiento por calor y golpe de calor</b>, que es una emergencia. El DS 594 fija límites para trabajar expuesto al calor.' },
       { s: 'si_t2_lugar', t: 'El calor en tu trabajo', x: 'En la cosecha de frambuesa, en pleno verano, se trabaja al sol, agachándose y llevando bandejas. A eso se suman el esfuerzo físico, la ropa de trabajo y el EPP.' },
@@ -1817,7 +1819,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   });
 
   SI_CONT.temas.push({
-    id: 'enfermedades', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Efectos en la salud y enfermedades profesionales', thumb: 'si_t2_ep', mins: 12,
+    id: 'enfermedades', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Efectos en la salud y enfermedades profesionales', thumb: 'si_t2_ep', mins: 12,
     learn: [
       { s: 'si_t2_ep', t: '¿Qué es una enfermedad profesional?', x: 'Es la causada <b>de forma directa por el trabajo</b> que haces y que produce incapacidad o muerte (Ley 16.744). A diferencia de un accidente, <b>no pasa de golpe</b>: aparece de a poco, después de meses o años de exposición a un agente, como ruido, movimientos repetitivos, químicos, sol o estrés. Por eso se previene todos los días.' },
       { s: 'si_t2_agentes', t: 'Los agentes que enferman', x: '<ul><li><b>Físicos:</b> ruido, calor, frío, radiación UV, vibración.</li><li><b>Químicos:</b> agroquímicos y combustibles.</li><li><b>Biológicos:</b> virus y bacterias, como el hantavirus.</li><li><b>Ergonómicos:</b> carga manual, posturas y movimientos repetitivos.</li><li><b>Psicosociales:</b> sobrecarga, acoso, estrés.</li></ul>' },
@@ -1969,7 +1971,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   // ================= TEMAS · HANTA, PSICOSOCIAL, KARIN, ILUMINACIÓN =================
   const BOD = 'la bodega del galpón';
   SI_CONT.temas.push({
-    id: 'hanta', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Hantavirus', thumb: 'si_t2_raton', mins: 12,
+    id: 'hanta', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Hantavirus', thumb: 'si_t2_raton', mins: 12,
     learn: [
       { s: 'si_t2_raton', t: '¿Qué es el hantavirus?', x: 'Es una enfermedad grave, que puede causar la muerte, producida por un virus que transmite el <b>ratón colilargo</b>: un ratón silvestre pequeño, de <b>cola más larga que su cuerpo</b>. Vive en matorrales, pastizales y orillas de canales, y entra a galpones, bodegas y casas del fundo buscando comida y refugio.' },
       { s: 'si_t2_contagio', t: '¿Cómo se contagia?', x: 'El virus está en la <b>orina, las fecas y la saliva</b> del ratón. Al secarse, se mezclan con el polvo. Te contagias al <b>respirar ese polvo</b>, por ejemplo al barrer o sacudir un lugar cerrado. También por una mordedura o al tocar fecas y llevarte la mano a la boca. No se contagia por picadura de insectos.' },
@@ -2017,7 +2019,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   });
 
   SI_CONT.temas.push({
-    id: 'psicosocial', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Riesgos psicosociales y bienestar en el trabajo', thumb: 'si_t2_psico', mins: 12,
+    id: 'psicosocial', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Riesgos psicosociales y bienestar en el trabajo', thumb: 'si_t2_psico', mins: 12,
     learn: [
       { s: 'si_t2_psico', t: '¿Qué son los riesgos psicosociales?', x: 'Son condiciones de la <b>organización del trabajo</b> que pueden dañar tu salud mental y física: mucha carga o apuro, poca claridad sobre lo que hay que hacer, mal trato, falta de apoyo, inseguridad. Pueden causar <b>estrés, ansiedad, depresión, problemas para dormir, dolores</b> y también accidentes, porque bajan la atención.' },
       { s: 'si_t2_ceal', t: 'El protocolo MINSAL y el cuestionario CEAL-SM', x: 'El protocolo de vigilancia de riesgos psicosociales del MINSAL obliga a evaluarlos con el <b>cuestionario CEAL-SM</b> de SUSESO. Es <b>anónimo y confidencial</b>: nadie sabe qué respondió cada persona. Un comité con representantes de la empresa y de los trabajadores organiza la aplicación y revisa los resultados.' },
@@ -2066,7 +2068,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
 
   const TER = 'contratistas, visitas o personas ajenas al fundo';
   SI_CONT.temas.push({
-    id: 'karin', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Ley Karin: trabajo libre de acoso y violencia', thumb: 'si_t2_karin', mins: 15,
+    id: 'karin', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Ley Karin: trabajo libre de acoso y violencia', thumb: 'si_t2_karin', mins: 15,
     learn: [
       { s: 'si_t2_karin', t: 'Ley Karin (Ley 21.643)', x: 'Desde agosto de 2024, la Ley 21.643 obliga a las empresas a <b>prevenir, investigar y sancionar</b> el acoso laboral, el acoso sexual y la violencia en el trabajo. Cada empresa del grupo tiene un <b>protocolo de prevención</b> y un procedimiento de denuncia. El objetivo es un trabajo con buen trato para todos.' },
       { s: 'si_t2_acoso', t: 'Acoso laboral', x: 'Es toda agresión u hostigamiento, <b>aunque ocurra una sola vez</b>, que menoscabe, maltrate o humille a una persona, o que perjudique su situación en el trabajo. Puede venir de una jefatura, de un compañero o de un subordinado. Ejemplos: gritos e insultos, burlas, aislar a alguien, amenazas, encargar tareas imposibles para humillar.' },
@@ -2114,7 +2116,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   });
 
   SI_CONT.temas.push({
-    id: 'iluminacion', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Iluminación y fatiga visual', thumb: 'si_t2_lux', mins: 12,
+    id: 'iluminacion', sec: 'todos', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Iluminación y fatiga visual', thumb: 'si_t2_lux', mins: 12,
     learn: [
       { s: 'si_t2_lux', t: 'La luz también es seguridad', x: 'Con poca luz no ves un derrame, un desnivel, una rama o un hoyo ni el vehículo que viene. El DS 594 fija la <b>cantidad mínima de luz</b> para cada tipo de tarea, medida en <b>lux</b>. Se mide con un <b>luxómetro</b>.' },
       { s: 'si_t2_tarea', t: 'Más precisión, más luz', x: 'Un pasillo necesita menos luz que leer la etiqueta de un agroquímico o revisar la fruta. Mientras más fina es la tarea, más luz necesita. Si no alcanzas a ver bien lo que haces, avisa: se puede medir y corregir.' },
@@ -2406,7 +2408,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + W(80, 186, { pose: 'point' }) + W(240, 186, { pose: 'stand', flip: true, vest: true }) + bubble(20, 22, '¡Aquí hay un hoyo!', 130) + bubble(200, 40, 'Lo señalizo', 100));
 
   SI_CONT.temas.push({
-    id: 'ag_terreno', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Caminar y trabajar entre hileras', thumb: 'si_ag_ter_tractor', mins: 12,
+    id: 'ag_terreno', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Caminar y trabajar entre hileras', thumb: 'si_ag_ter_tractor', mins: 12,
     learn: [
       { s: 'si_ag_ter_suelo', t: 'Terreno irregular', x: 'En el campo hay <b>hoyos, piedras, raíces, ramas en el suelo y barro</b>, y el pasto alto puede esconder un hoyo. Las caídas al mismo nivel causan torceduras de tobillo, golpes y fracturas.<ul><li>Mira <b>dónde pisas</b> y no corras.</li><li>Usa <b>calzado de seguridad</b> con buen agarre.</li><li>No camines mirando el celular.</li></ul>' },
       { s: 'si_ag_ter_acequia', t: 'Acequias y canales: caída y ahogamiento', x: '<ul><li><b>No saltes</b> acequias ni canales: cruza solo por <b>puentes o pasarelas habilitadas</b>.</li><li>Los bordes son resbalosos y la corriente puede ser fuerte, aunque el agua se vea tranquila.</li><li>No te bañes ni te laves en los canales.</li><li>Si alguien cae: <b>da aviso</b> y lánzale algo para que se agarre (cuerda, rama). No te tires al agua.</li></ul>', k: 'Nunca saltes un canal: crúzalo solo por un puente o pasarela habilitada.' },
@@ -2477,7 +2479,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   S.si_ag_abe_ayuda = () => svx(ext({ gy: 150, sun: false }) + rot(90, 36, 180, W(36, 180, { face: 'worried' })) + W(150, 188, { pose: 'squat', flip: true }) + W(220, 186, { pose: 'stop' }) + `<rect x="231" y="102" width="9" height="15" rx="2" fill="#263238"/>` + phone(262, 80) + lbl(210, 30, 'No lo dejes solo', '#1565C0', 130));
 
   SI_CONT.temas.push({
-    id: 'ag_abejas', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Colmenas y picaduras de abejas', thumb: 'si_ag_abe_colmenas', mins: 12,
+    id: 'ag_abejas', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Colmenas y picaduras de abejas', thumb: 'si_ag_abe_colmenas', mins: 12,
     learn: [
       { s: 'si_ag_abe_colmenas', t: '¿Por qué hay colmenas en el campo?', x: 'En <b>primavera</b>, durante la floración, se instalan colmenas para que las abejas <b>polinicen</b> las flores de la <b>frambuesa</b>. Sin polinización no hay fruta.<br>Las abejas son necesarias: tu tarea es trabajar cerca de ellas <b>con cuidado</b> para no provocarlas.' },
       { s: 'si_ag_abe_distancia', t: 'No te acerques ni golpees las colmenas', x: '<ul><li>No te pares <b>frente a la entrada</b> de la colmena: es el paso de vuelo de las abejas.</li><li><b>No golpees, muevas ni abras</b> una colmena: eso lo hace solo el apicultor, con su equipo.</li><li>Con vehículos y tractores, no pases rozando las colmenas.</li><li>Si una colmena estorba tu trabajo, <b>avisa a tu jefatura</b>.</li></ul>' },
@@ -2557,7 +2559,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   S.si_ag_tra_trayecto = () => svx(ext({ gy: 150 }) + house(14, 160) + cherry(286, 170, .5) + cherry(250, 170, .5) + `<path d="M70,176 Q160,150 236,174" stroke="#1565C0" stroke-width="3" stroke-dasharray="7 6" fill="none"/>` + W(150, 184, { pose: 'walk' }) + lbl(160, 30, 'Trayecto directo', '#1565C0'));
 
   SI_CONT.temas.push({
-    id: 'ag_transporte', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Traslado de personal y caminos internos', thumb: 'si_ag_tra_bus', mins: 12,
+    id: 'ag_transporte', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Traslado de personal y caminos internos', thumb: 'si_ag_tra_bus', mins: 12,
     learn: [
       { s: 'si_ag_tra_bus', t: 'Viaja solo en vehículos autorizados', x: 'Para trasladarte entre sectores del fundo, sube <b>solo a buses o vehículos autorizados</b> para transporte de personal:<ul><li>Con <b>un asiento y cinturón</b> para cada persona.</li><li>Con conductor autorizado y con licencia.</li></ul>Si el vehículo está lleno, espera el siguiente viaje o avisa a tu jefatura.' },
       { s: 'si_ag_tra_nunca', t: 'Nunca en el carro, sobre la carga ni en el tractor', x: 'Está <b>prohibido</b> viajar en el <b>carro, sobre las bandejas o los postes, o en el tractor</b> (guardabarro, enganche o implemento).<br>Son para carga y el tractor tiene <b>un solo asiento</b>. Una frenada, una curva o un hoyo te bota y puedes caer <b>bajo las ruedas</b>.', k: 'Nunca viajes en el carro, sobre la carga ni en el tractor.' },
@@ -2667,7 +2669,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     + aplic(80, 192, { pose: 'squat' }) + `<path d="M8,120 H62 M8,120 V192 M62,120 V192" stroke="#FFC107" stroke-width="3" stroke-dasharray="8 5"/>` + lbl(150, 24, 'Aislar, avisar y contener', '#D7262B', 170));
 
   SI_CONT.temas.push({
-    id: 'ag_reingreso', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Periodo de reingreso, bodega de agroquímicos e intoxicaciones', thumb: 'si_ag_rei_letrero', mins: 15,
+    id: 'ag_reingreso', sec: 'campo', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Periodo de reingreso, bodega de agroquímicos e intoxicaciones', thumb: 'si_ag_rei_letrero', mins: 15,
     learn: [
       { s: 'si_ag_rei_letrero', t: 'Letrero de aplicación', x: 'Cuando se aplica un agroquímico, se pone un <b>letrero en la entrada del sector</b>: avisa que el sector fue aplicado y <b>hasta cuándo no se puede entrar</b>.<br>El letrero lo respetan <b>todas las personas</b>, sin excepción. Si ves uno, no entres y espera instrucciones de tu jefatura.' },
       { s: 'si_ag_rei_plazo', t: 'Periodo de reingreso', x: 'Es el <b>tiempo que debe pasar después de la aplicación</b> antes de que una persona entre al sector. Lo indica la <b>etiqueta</b> del producto.<br><b>Nadie entra antes del plazo</b>, aunque la cosecha esté atrasada, aunque “ya se secó” o no se sienta olor.<br>No lo confundas con el <b>periodo de carencia</b>: los días entre la última aplicación y la cosecha.', k: 'Nadie entra a un sector aplicado antes de que termine el periodo de reingreso.' },
@@ -2738,7 +2740,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   S.si_ag_trc_alrededor = () => svx(ext({ gy: 150, sun: false }) + rowTrees(150, .4) + `<ellipse cx="60" cy="182" rx="56" ry="14" fill="#D7262B" opacity=".18"/><ellipse cx="260" cy="182" rx="50" ry="14" fill="#D7262B" opacity=".18"/>` + tractor(100, 186, { s: .85, driver: true, belt: true, baliza: true }) + W(46, 188, { s: .85, pose: 'stand', flip: true }) + bubble(110, 18, '¿Hay alguien?', 110));
 
   SI_CONT.temas.push({
-    id: 'ag_tractor', sec: 'tractor', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Tractor: vuelco y operación segura', thumb: 'si_ag_trc_rops', mins: 15,
+    id: 'ag_tractor', sec: 'tractor', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Tractor: vuelco y operación segura', thumb: 'si_ag_trc_rops', mins: 15,
     learn: [
       { s: 'si_ag_trc_autor', t: 'Solo tractorista autorizado', x: 'El tractor lo opera <b>solo el tractorista capacitado, autorizado por la empresa y con la licencia de conducir que corresponde</b>.<br>Si no estás autorizado, <b>no lo muevas</b>, ni siquiera unos metros, ni en neutro.' },
       { s: 'si_ag_trc_vuelco', t: 'El vuelco: el mayor peligro', x: 'El <b>vuelco</b> es la causa más grave de accidentes con tractor: puede ser de lado o hacia atrás, y aplasta al tractorista.<br>Causas comunes:<ul><li>Pendientes y bordes de canal.</li><li>Curvas a mucha velocidad.</li><li>Hoyos, piedras y troncos.</li><li>Implementos o cargas pesadas enganchados muy altos: el tractor puede volcar hacia atrás.</li></ul>' },
@@ -2814,7 +2816,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   S.si_ag_tdf_mant = () => svx(ext({ gy: 150, sun: false }) + rastra(110, 186, 1.1) + tractor(110, 186, { s: .8 }) + W(40, 188, { pose: 'squat' }) + key(40, 70) + `<line x1="34" y1="62" x2="60" y2="84" stroke="#D7262B" stroke-width="3"/>` + lbl(196, 24, 'TDF desconectada y motor apagado', '#2E7D32', 220));
 
   SI_CONT.temas.push({
-    id: 'ag_tdf', sec: 'tractor', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra'], title: 'Toma de fuerza, enganche e implementos', thumb: 'si_ag_tdf_que', mins: 15,
+    id: 'ag_tdf', sec: 'tractor', emp: ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'], title: 'Toma de fuerza, enganche e implementos', thumb: 'si_ag_tdf_que', mins: 15,
     learn: [
       { s: 'si_ag_tdf_que', t: 'La toma de fuerza (TDF) y el cardán', x: 'La <b>toma de fuerza</b> es el eje en la parte de atrás del tractor que transmite el giro del motor al implemento a través del <b>cardán</b> (nebulizadora, picadora, rastra rotativa).<br>Gira <b>tan rápido</b> que, si atrapa tu ropa, te enrolla en <b>menos de un segundo</b>: no alcanzas a soltarte.' },
       { s: 'si_ag_tdf_prot', t: 'El cardán siempre con su protector', x: '<ul><li>El cardán debe tener su <b>protector completo</b>, sin trizaduras, con su <b>cadena sujeta</b> para que no gire.</li><li>El protector de la toma de fuerza del tractor también va en su lugar.</li><li>Si falta o está roto, <b>no se usa</b> el implemento y se avisa a la jefatura.</li></ul>', k: 'Nunca uses un implemento con el cardán sin su protector.' },
@@ -3375,7 +3377,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
   window.CF = { framb, hilera, fondoHileras, bandeja, pilaBandejas, carro, cintura, estacionAgua, bano, lavamanos, comedor, invernadero, berry };
 
   // ======================= CHARLAS =======================
-  const TODAS = ['comfrut', 'car', 'snova', 'agricap', 'integra'];
+  const TODAS = ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'];
 
   SI_CONT.temas.push({
     id: 'cf_cosecha', sec: 'campo', emp: TODAS, title: 'Cosecha segura de frambuesa', thumb: 'cf_co_hilera', mins: 15,

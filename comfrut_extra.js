@@ -12,12 +12,13 @@
     car: { k: 'car', n: 'CAR', corto: 'CAR', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'CAR · CONTRATISTA', voz: 'CAR', contratista: true },
     snova: { k: 'snova', n: 'Snova SpA', corto: 'Snova', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'SNOVA SPA · CONTRATISTA', voz: 'Snova', contratista: true },
     agricap: { k: 'agricap', n: 'Agricap', corto: 'Agricap', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'AGRICAP · CONTRATISTA', voz: 'Agricap', contratista: true },
-    integra: { k: 'integra', n: 'Integra Prevención SpA', corto: 'Integra Prevención', rut: '78.337.672-5', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'INTEGRA PREVENCIÓN · ASESORÍA', voz: 'Integra Prevención', contratista: true }
+    integra: { k: 'integra', n: 'Integra Prevención SpA', corto: 'Integra Prevención', rut: '78.337.672-5', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'INTEGRA PREVENCIÓN · ASESORÍA', voz: 'Integra Prevención', contratista: true },
+    independiente: { k: 'independiente', n: 'Independiente (boleta o factura)', corto: 'Independiente', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'TRABAJADOR INDEPENDIENTE · BOLETA O FACTURA', voz: 'trabajador independiente', contratista: true }
   };
-  const ORDEN_EMP = ['comfrut', 'car', 'snova', 'agricap', 'integra'];
+  const ORDEN_EMP = ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'];
   const GRUPO = { n: 'Comfrut Nursery', c1: '#1F2FD6', c2: '#2FC3F5', head: 'COMFRUT NURSERY · FUNDO SANTA SARA' };
   const sinT = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
-  const empDeNombre = s => { const t = sinT(s).trim(); if (!t) return ''; if (/COMFRUT/.test(t)) return 'comfrut'; if (/^C\.?A\.?R\.?\b|\bCAR\b/.test(t)) return 'car'; if (/SNOVA/.test(t)) return 'snova'; if (/AGRICAP/.test(t)) return 'agricap'; if (/INTEGRA/.test(t)) return 'integra'; return 'comfrut'; };
+  const empDeNombre = s => { const t = sinT(s).trim(); if (!t) return ''; if (/INDEPENDIENTE|BOLETA|FACTURA|HONORARIO/.test(t)) return 'independiente'; if (/COMFRUT/.test(t)) return 'comfrut'; if (/^C\.?A\.?R\.?\b|\bCAR\b/.test(t)) return 'car'; if (/SNOVA/.test(t)) return 'snova'; if (/AGRICAP/.test(t)) return 'agricap'; if (/INTEGRA/.test(t)) return 'integra'; return 'comfrut'; };
   const empDe = p => (p && (EMPRESAS[p.emp] ? p.emp : empDeNombre(p.empresa))) || '';
   window.siEmpDeNombre = empDeNombre;
 
@@ -71,6 +72,7 @@
   const cvQ = (q, e) => { const r = s => window.siTxt(s, e); const one = x => x.vf !== undefined ? { q: r(x.q), vf: x.vf, w: r(x.w) } : { q: r(x.q), o: (x.o || []).map(r), a: 0, w: r(x.w) };
     const vs = q.v || []; return Object.assign({ s: q.s }, one(vs[0]), { v: vs.slice(1).map(one) }); };
   let EMP_HECHA = '';
+  window.CF_CONSTRUIR = e => construir(e);   // para pruebas
   function construir(e) {
     if (!EMPRESAS[e]) e = 'comfrut';
     if (EMP_HECHA === e && TOPICS.length) { window.SI_EMP = e; if (M_ACT !== EMPRESAS[e]) marca(e); try { window.__siAjInd && window.__siAjInd(e); } catch (er) {} return; }

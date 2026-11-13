@@ -1,5 +1,5 @@
 // ===== COMFRUT Nursery · base común (se carga después de mejoras_comunes.js y antes de las charlas) =====
-// 1) Empresa de la persona que ingresó: window.SI_EMP = 'comfrut' | 'car' | 'snova' | 'agricap' | 'integra'
+// 1) Empresa de la persona que ingresó: window.SI_EMP = 'comfrut' | 'car' | 'snova' | 'agricap' | 'integra' | 'independiente'
 //    Todas trabajan en el Fundo Santa Sara (frambuesas): mismas charlas, mismo EPP; cambia el nombre de la empresa y su mutualidad.
 // 2) Vestimenta de los dibujos: legionario con cubrenuca, ropa de manga larga, lentes de seguridad y zapatos de seguridad. Sin casco.
 // 3) Textos: [[L:..|X:..|A:texto campo|I:..]] usa siempre la versión de campo (A).
@@ -8,7 +8,7 @@
   if (window.__siBase) return; window.__siBase = true;
   window.SI_EMP = window.SI_EMP || 'comfrut';
   const VCAMPO = { helmet: false, hat: 'legion', glasses: true, shirt: '#2B4C9B', pants: '#37474F', gloves: false };
-  const VEST = { comfrut: VCAMPO, car: VCAMPO, snova: VCAMPO, agricap: VCAMPO, integra: VCAMPO };
+  const VEST = { comfrut: VCAMPO, car: VCAMPO, snova: VCAMPO, agricap: VCAMPO, integra: VCAMPO, independiente: VCAMPO };
   window.SI_VEST = VEST;
   if (typeof W === 'function' && !W.__si) {
     const W0 = W;
@@ -34,7 +34,8 @@
   // Mutualidad de cada empresa (Daniel, 12-11-2026): Comfrut ACHS, CAR IST; las demás, "su respectiva mutualidad"
   const MUTS = {
     comfrut: { MUT: 'ACHS', LAMUT: 'la ACHS', TEL: '1404' },
-    car: { MUT: 'IST', LAMUT: 'el IST', TEL: '800 204 000' }
+    car: { MUT: 'IST', LAMUT: 'el IST', TEL: '800 204 000' },
+    independiente: { MUT: 'ISL o tu mutualidad', LAMUT: 'el ISL o la mutualidad donde cotizas', TEL: '' }
   };
   const MUT_DEF = { MUT: 'tu mutualidad', LAMUT: 'la mutualidad de tu empresa', TEL: '' };
   window.CF_MUT = e => MUTS[e || window.SI_EMP] || MUT_DEF;
@@ -48,7 +49,7 @@
       const M = window.CF_MUT(emp);
       s = s.replace(/\{LAMUTC\}/g, M.LAMUT.charAt(0).toUpperCase() + M.LAMUT.slice(1)).replace(/\{LAMUT\}/g, M.LAMUT).replace(/\{MUT\}/g, M.MUT).replace(/\{TEL\}/g, M.TEL);
       // gramática: "a el IST" → "al IST", "de el IST" → "del IST"; sin número: se limpian los restos
-      s = s.replace(/\ba el IST\b/g, 'al IST').replace(/\bde el IST\b/g, 'del IST').replace(/\bA el IST\b/g, 'Al IST').replace(/\ba <b>el IST/g, 'al <b>IST').replace(/\bde <b>el IST/g, 'del <b>IST');
+      s = s.replace(/\b([aA]) el (IS[TL])\b/g, '$1l $2').replace(/\b([dD])e el (IS[TL])\b/g, '$1el $2').replace(/\b([aA]) <b>el (IS[TL])/g, '$1l <b>$2').replace(/\b([dD])e <b>el (IS[TL])/g, '$1el <b>$2');
       if (!M.TEL) s = s.replace(/\s*\(\s*\)/g, '').replace(/:\s*<b>\s*<\/b>/g, '').replace(/<b>\s*<\/b>/g, '').replace(/\s+([,.;:)])/g, '$1').replace(/:\s*,/g, ',').replace(/ {2,}/g, ' ');
     }
     return s;
