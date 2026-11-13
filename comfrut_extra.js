@@ -103,7 +103,7 @@
     try {
       IND_PUESTO = {}; IND_TRANSV = '';
       IND_REGLAMENTOS = {}; IND_REGLAMENTOS[EMPRESAS[e].n] = SCRIPT_URL + '?riohs=1&e=' + e;
-      IND_FORMULARIO = '#inscribirme';
+      IND_FORMULARIO = 'https://danielzunino.github.io/inscripcion-san-ignacio/?e=comfrut';
       IND_REGLAMENTOS = {}; IND_REGLAMENTOS['Comfrut Nursery S.A.'] = SCRIPT_URL + '?riohs=1&e=comfrut'; if (e !== 'comfrut') IND_REGLAMENTOS[EMPRESAS[e].n] = SCRIPT_URL + '?riohs=1&e=' + e;
     } catch (er) {}
     EMP_HECHA = e;
@@ -207,6 +207,11 @@
     try { VOZ.say(pend ? 'Tu inscripción está en revisión. Apenas el área de Prevención o RR.HH. la acepte, podrás entrar.' : 'El sistema no te reconoce. Debes inscribirte en la nómina del fundo. Toca el botón y completa la ficha.'); } catch (e) {}
   };
   inscripcionPerello = function () { alertaNomina('noreg', ''); };
+  window.addEventListener('click', e => {   // enlaces antiguos (#inscribirme o formulario de Google): abren la ficha guiada directo
+    const a = e.target.closest && e.target.closest('a[href="#inscribirme"], a[href*="docs.google.com/forms"]'); if (!a) return;
+    e.preventDefault(); e.stopImmediatePropagation(); const nm = document.getElementById('nomModal'); if (nm) nm.className = ''; window.open(INSC, '_blank', 'noopener');
+  }, true);
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('#nomModal .insBtn')) setTimeout(() => { const nm = document.getElementById('nomModal'); if (nm) nm.className = ''; }, 300); }, true);   // al tocar el botón amarillo se cierra el aviso
 
   // ---------- 9) Repaso rápido: si el tema ya está aprobado, se reconoce aunque en este teléfono no esté guardada la clave
   try {
