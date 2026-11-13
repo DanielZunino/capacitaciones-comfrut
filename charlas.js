@@ -3324,7 +3324,7 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     };
     window.CF_HUMO = humo;
     // 2) sonidos sintetizados (sin archivos)
-    let ctx = null, last = '';
+    let ctx = null, last = null;
     const muted = () => { try { return typeof SFX !== 'undefined' ? SFX.muted : false; } catch (e) { return false; } };
     const AC = () => { if (!ctx) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return null; ctx = new A(); } if (ctx.state === 'suspended') ctx.resume(); return ctx; };
     const ruidoBlanco = (c, dur) => { const n = Math.floor(c.sampleRate * dur), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1; const s = c.createBufferSource(); s.buffer = b; return s; };
@@ -3361,9 +3361,8 @@ window.SI_CONT = window.SI_CONT || { temas: [] };
     const revisar = () => {
       humo(document);
       const c = document.getElementById('lCard'); if (!c) return;
-      const scr = document.getElementById('s-learn'); if (scr && !scr.classList.contains('on')) { last = ''; return; }
-      const h = c.querySelector('h3'), key = (h ? h.textContent : '') + '|' + c.innerHTML.length;
-      if (key === last) return; last = key;
+      const scr = document.getElementById('s-learn'); if (scr && !scr.classList.contains('on')) { last = null; return; }
+      const fe = c.firstElementChild; if (!fe || fe === last) return; last = fe;   // una vez por lámina
       const m = c.querySelector('[data-motor]'); if (!m) return;
       const v = m.getAttribute('data-motor'); tocar(v === 'maquina' ? 'maquina' : v === 'taller' ? 'taller' : 'tractor');
     };

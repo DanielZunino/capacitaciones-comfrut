@@ -647,4 +647,16 @@
     Object.keys(R0).forEach(k => { try { renderQ[k] = R0[k]; } catch (e) {} });
     renderQ.__siQi = true;
   } catch (e) {}
+
+  // ---------- 99) Recuadro de firma siempre a su tamaño real (evita la firma pixelada o corrida en algunos teléfonos)
+  (function () {
+    const fix = () => { try {
+      const g = document.getElementById('sig'); if (!g || typeof sizeSig !== 'function') return;
+      const r = g.getBoundingClientRect(); if (!r.width || !r.height) return; const k = window.devicePixelRatio || 1;
+      if (Math.abs(g.width - r.width * k) > 2 || Math.abs(g.height - r.height * k) > 2) sizeSig();
+    } catch (e) {} };
+    document.addEventListener('pointerdown', e => { if (e.target && e.target.id === 'sig') fix(); }, true);
+    const ini = () => { try { const g = document.getElementById('sig'); if (g && window.ResizeObserver) new ResizeObserver(fix).observe(g); } catch (e) {} };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ini); else ini();
+  })();
 })();
