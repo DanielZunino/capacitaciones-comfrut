@@ -9,7 +9,7 @@
   // Comfrut es la mandante; CAR, Snova, Agricap e Integra trabajan en el fundo como contratistas. Mismas charlas para todos; cambian nombre y mutualidad.
   const EMPRESAS = window.SI_EMPRESAS = {
     comfrut: { k: 'comfrut', n: 'Comfrut Nursery S.A.', corto: 'Comfrut Nursery', rut: '96.764.220-7', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'COMFRUT NURSERY S.A.', voz: 'Comfrut Nursery' },
-    car: { k: 'car', n: 'CAR', corto: 'CAR', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'CAR · CONTRATISTA', voz: 'CAR', contratista: true },
+    car: { k: 'car', n: 'Servicios Agrícolas María del Carmen Aguilera Romero E.I.R.L.', corto: 'CAR', rut: '76.748.121-7', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'CAR · CONTRATISTA', voz: 'CAR', contratista: true },
     snova: { k: 'snova', n: 'Snova SpA', corto: 'Snova', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'SNOVA SPA · CONTRATISTA', voz: 'Snova', contratista: true },
     agricap: { k: 'agricap', n: 'Agricap', corto: 'Agricap', rut: '', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'AGRICAP · CONTRATISTA', voz: 'Agricap', contratista: true },
     integra: { k: 'integra', n: 'Integra Prevención SpA', corto: 'Integra Prevención', rut: '78.337.672-5', logo: LOGO_CF, ar: 3.33, c1: '#1F2FD6', c2: '#2FC3F5', head: 'INTEGRA PREVENCIÓN · ASESORÍA', voz: 'Integra Prevención', contratista: true },
@@ -18,7 +18,7 @@
   const ORDEN_EMP = ['comfrut', 'car', 'snova', 'agricap', 'integra', 'independiente'];
   const GRUPO = { n: 'Comfrut Nursery', c1: '#1F2FD6', c2: '#2FC3F5', head: 'COMFRUT NURSERY · FUNDO SANTA SARA' };
   const sinT = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
-  const empDeNombre = s => { const t = sinT(s).trim(); if (!t) return ''; if (/INDEPENDIENTE|BOLETA|FACTURA|HONORARIO/.test(t)) return 'independiente'; if (/COMFRUT/.test(t)) return 'comfrut'; if (/^C\.?A\.?R\.?\b|\bCAR\b/.test(t)) return 'car'; if (/SNOVA/.test(t)) return 'snova'; if (/AGRICAP/.test(t)) return 'agricap'; if (/INTEGRA/.test(t)) return 'integra'; return 'comfrut'; };
+  const empDeNombre = s => { const t = sinT(s).trim(); if (!t) return ''; if (/INDEPENDIENTE|BOLETA|FACTURA|HONORARIO/.test(t)) return 'independiente'; if (/COMFRUT/.test(t)) return 'comfrut'; if (/AGUILERA ROMERO|SERVICIOS AGRICOLAS MARIA/.test(t)) return 'car'; if (/^C\.?A\.?R\.?\b|\bCAR\b/.test(t)) return 'car'; if (/SNOVA/.test(t)) return 'snova'; if (/AGRICAP/.test(t)) return 'agricap'; if (/INTEGRA/.test(t)) return 'integra'; return 'comfrut'; };
   const empDe = p => (p && (EMPRESAS[p.emp] ? p.emp : empDeNombre(p.empresa))) || '';
   window.siEmpDeNombre = empDeNombre;
 
